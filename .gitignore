@@ -61,3 +61,6 @@ ios/Flutter/Flutter.framework
 DerivedData/
 
 
+
+# FVM Version Cache
+.fvm/
