@@ -43,3 +43,21 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Android
+android/.gradle
+android/local.properties
+android/*.iml
+android/app/*.keystore
+android/key.properties
+
+
+# iOS
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/Flutter/Flutter.framework
+*.xcuserdatad
+*.xcworkspace
+DerivedData/
+
+
