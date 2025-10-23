@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // Gradient background with curve
                 Container(
-                  height: MediaQuery.of(context).size.height*0.15,
+                  height: MediaQuery.of(context).size.height*0.135,
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment.topLeft,
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       // Balance Card
                       Container(
                         width: double.infinity,
@@ -247,32 +247,20 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10,),
-                      Column(
-                        children: [
-                          Text("Last 7 Days"),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Expanded(child:
-                          MiniBarChart(data: [5,8,20,5,30])
-                          ),
 
-                        ],
-                      )
+
+                      // MiniBarChart(data: [5,8,20,5,30])
                     ],
                   ),
                 ),
               ],
             ),
+
             // Rest of your content goes here
-            // Expanded(
-            //   child: Container(
-            //     child: const Center(
-            //       child: Text('Your content here'),
-            //     ),
-            //   ),
-            // ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: MiniBarChart(data: [5,8,20,5,30,8,20]),
+            ),
           ],
         ),
       ),
