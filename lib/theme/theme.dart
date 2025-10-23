@@ -10,5 +10,6 @@ class DAppTheme {
     useMaterial3: true,
     brightness: Brightness.light,
     colorScheme: ColorScheme.light(onPrimary: DColors.primary, ),
+    fontFamily: 'Poppins',
   );
 }
