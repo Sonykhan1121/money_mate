@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_mate/providers/navigation_provider.dart';
+import 'package:money_mate/providers/transactions_provider.dart';
 import 'package:money_mate/theme/theme.dart';
 import 'package:money_mate/utils/constants/colors.dart';
 import 'package:money_mate/views/navigation_features/navigation_page.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => NavigationProvider()),
+            ChangeNotifierProvider(create: (context) => TransactionsProvider()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

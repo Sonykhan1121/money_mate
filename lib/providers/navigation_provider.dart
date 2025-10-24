@@ -9,7 +9,7 @@ class NavigationProvider extends ChangeNotifier{
 
   int _currentIndex = 0;
   final List<Map<String, dynamic>> widgetOptions = [
-    {'title': 'Home', 'icon': Icons.home, 'page': HomePage()},
+    {'title': 'Home', 'icon': Icons.home, 'page':  ()},
     {'title': 'Add Expense', 'icon': Icons.add, 'page': AddExpense()},
     {
       'title': 'Transactions',
