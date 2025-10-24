@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                           'Good Morning',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14.sp,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -61,13 +61,13 @@ class _HomePageState extends State<HomePage> {
                               'Sony',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.sp,
+                                fontSize: 20,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             Text(
                               '👋',
-                              style: TextStyle(fontSize: 20.sp),
+                              style: TextStyle(fontSize: 20),
                             ),
                           ],
                         ),

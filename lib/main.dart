@@ -11,15 +11,15 @@ import 'package:provider/provider.dart';
 
 void main() {
 
-  SystemChrome.setSystemUIOverlayStyle(
-     SystemUiOverlayStyle(
-      statusBarColor: DColors.primary,
-      statusBarIconBrightness: Brightness.light,
-    ),
-  );
+  // SystemChrome.setSystemUIOverlayStyle(
+  //    SystemUiOverlayStyle(
+  //     statusBarColor: DColors.primary,
+  //     statusBarIconBrightness: Brightness.light,
+  //   ),
+  // );
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (BuildContext context) {
         return MyApp();
       },

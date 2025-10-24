@@ -92,4 +92,76 @@ class TransactionsProvider extends ChangeNotifier
       recurringFrequency: RecurringFrequency.monthly,
     ),
   ];
+
+  final List<CategoryModel> demoCategories = [
+    // Income Categories
+    CategoryModel(
+      id: '1',
+      name: 'Salary',
+      nameLocalised: 'বেতন',
+      icon: '💰',
+      colorHex: '#4CAF50', // green
+      type: TransactionType.income,
+      isDefault: true,
+    ),
+    CategoryModel(
+      id: '2',
+      name: 'Bonus',
+      nameLocalised: 'বোনাস',
+      icon: '🎁',
+      colorHex: '#FF9800', // orange
+      type: TransactionType.income,
+    ),
+    CategoryModel(
+      id: '3',
+      name: 'Investment',
+      nameLocalised: 'বিনিয়োগ',
+      icon: '📈',
+      colorHex: '#2196F3', // blue
+      type: TransactionType.income,
+    ),
+
+    // Expense Categories
+    CategoryModel(
+      id: '4',
+      name: 'Food',
+      nameLocalised: 'খাবার',
+      icon: '🍔',
+      colorHex: '#F44336', // red
+      type: TransactionType.expense,
+      isDefault: true,
+    ),
+    CategoryModel(
+      id: '5',
+      name: 'Transport',
+      nameLocalised: 'পরিবহন',
+      icon: '🚌',
+      colorHex: '#FFC107', // amber
+      type: TransactionType.expense,
+    ),
+    CategoryModel(
+      id: '6',
+      name: 'Shopping',
+      nameLocalised: 'কেনাকাটা',
+      icon: '🛍️',
+      colorHex: '#9C27B0', // purple
+      type: TransactionType.expense,
+    ),
+    CategoryModel(
+      id: '7',
+      name: 'Entertainment',
+      nameLocalised: 'বিনোদন',
+      icon: '🎬',
+      colorHex: '#03A9F4', // light blue
+      type: TransactionType.expense,
+    ),
+    CategoryModel(
+      id: '8',
+      name: 'Health',
+      nameLocalised: 'স্বাস্থ্য',
+      icon: '💊',
+      colorHex: '#8BC34A', // light green
+      type: TransactionType.expense,
+    ),
+  ];
 }

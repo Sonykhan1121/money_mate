@@ -1,6 +1,6 @@
 import 'package:money_mate/models/transactionType.dart';
 
-class Category {
+class CategoryModel {
   final String id;
   final String name;
   final String nameLocalised; // Bangla name
@@ -9,7 +9,7 @@ class Category {
   final TransactionType type;
   final bool isDefault;
 
-  Category({
+  CategoryModel({
     required this.id,
     required this.name,
     required this.nameLocalised,
@@ -19,8 +19,8 @@ class Category {
     this.isDefault = false,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
       id: json["id"] as String,
       name: json["name"] as String,
       nameLocalised: json["nameLocalised"] as String,
@@ -48,7 +48,7 @@ class Category {
     };
   }
 
-  Category copyWith({
+  CategoryModel copyWith({
     String? id,
     String? name,
     String? nameLocalised,
@@ -57,7 +57,7 @@ class Category {
     TransactionType? type,
     bool? isDefault,
   }) {
-    return Category(
+    return CategoryModel(
       id: id ?? this.id,
       name: name ?? this.name,
       nameLocalised: nameLocalised ?? this.nameLocalised,
