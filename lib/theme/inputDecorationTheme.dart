@@ -20,7 +20,7 @@ InputDecorationTheme inputDecorationTheme() {
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: BorderSide(color: DColors.grey),
+      borderSide: BorderSide(color: DColors.grey.withOpacity(0.5)),
     ),
   );
 }

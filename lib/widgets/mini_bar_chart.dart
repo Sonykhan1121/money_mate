@@ -68,7 +68,7 @@ class _MiniBarChartState extends State<MiniBarChart> {
                       BarChartRodData(
                         toY: value,
                         color: DColors.primary,
-                        width: 40,
+                        width: 32,
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ],
