@@ -316,6 +316,8 @@ class TransactionsProvider extends ChangeNotifier
 
   List<String> filters = ["Today", "This Week", "This Month", "This Year","Custom"];
 
+
+
    String _selectedFilter = "";
   String get selectedFilter => _selectedFilter;
 
@@ -324,7 +326,12 @@ class TransactionsProvider extends ChangeNotifier
     _selectedFilter = filter;
     notifyListeners();
   }
+  int compare(Transaction a ,Transaction b)
+  {
+    return b.date.compareTo(a.date);
+  }
   Map<String,List<Transaction>> listToMap(List<Transaction> transactions)  {
+     transactions.sort(compare);
     Map<String, List<Transaction>> result = {};
     final now = DateTime.now();
     String key;
@@ -341,7 +348,7 @@ class TransactionsProvider extends ChangeNotifier
             key = 'Yesterday ${DateFormat('d MMM').format(transaction.date)}';
           }
         else{
-        key = DateFormat('d MMMM').format(transaction.date);
+        key = DateFormat('d MMM').format(transaction.date);
           }
       result.putIfAbsent(key, () => []);
       result[key]!.add(transaction);

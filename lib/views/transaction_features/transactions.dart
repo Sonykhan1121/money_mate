@@ -58,41 +58,43 @@ class _TransactionsState extends State<Transactions> {
                     ),
                     SizedBox(height: 10,),
 
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: tProvider.filters.map((filter) {
-                          bool isSelected = tProvider.selectedFilter == filter;
-                          return InkWell(
-                            onTap: () {
-                              tProvider.setFilter(filter);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-
-                                  border: Border.all(
-                                    color:DColors.grey.withOpacity(0.5),
-                                    width: 1,
-                                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: tProvider.filters.map((filter) {
+                        bool isSelected = tProvider.selectedFilter == filter;
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: InkWell(
+                            onTap: () => tProvider.setFilter(filter),
+                            child: Chip(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              label: Text(
+                                filter,
+                                style: TextStyle(
+                                  color: isSelected ? Colors.white : DColors.grey,
                                 ),
-                                child: Chip(
-
-                                  label: Text(filter,style: TextStyle(color: isSelected?Colors.white:DColors.grey),),
-                                  backgroundColor: isSelected ? DColors.primary : Colors.transparent,
-
-
+                              ),
+                              backgroundColor:
+                              isSelected ? DColors.primary : Colors.transparent,
+                              shape: StadiumBorder(
+                                side: BorderSide(
+                                  color: DColors.grey.withOpacity(0.3),
+                                  width: 1,
                                 ),
                               ),
                             ),
-                          );
-                        }).toList(),
-                      ),
+                          ),
+                        );
+                      }).toList(),
                     ),
+                  ),
 
-                    SizedBox(height: 10,),
+
+
+
+                SizedBox(height: 10,),
                 Expanded(
                   child: ListView.builder(
                     controller: _scrollController,
@@ -107,10 +109,11 @@ class _TransactionsState extends State<Transactions> {
                           // Date header
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 8.0, horizontal: 4.0),
+                                vertical: 10.0, horizontal: 4.0),
                             child: Text(
                               dateKey,
                               style: TextStyle(
+                                color: DColors.grey.withOpacity(0.5),
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),
@@ -123,7 +126,10 @@ class _TransactionsState extends State<Transactions> {
                               subtitle: Text(
                                   DateFormat('hh:mm a').format(t.date)),
                               trailing: Text(
-                                '৳${t.amount.toStringAsFixed(2)}',
+                                '${(t.type ==
+                      TransactionType.income)
+                      ? "+"
+                          : "-"}৳${t.amount.toStringAsFixed(2)}',
                                 style: TextStyle(
                                     color: t.type ==
                                         TransactionType.income
