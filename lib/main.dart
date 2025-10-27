@@ -19,7 +19,7 @@ void main() {
   // );
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (BuildContext context) {
         return MyApp();
       },

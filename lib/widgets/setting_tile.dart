@@ -7,16 +7,22 @@ class SettingTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final Function(bool)? onChanged;
+  final bool switchValue;
 
-
-  const SettingTile({super.key,required this.iconData,required this.title,required this.subtitle, this.onChanged});
+  const SettingTile({
+    super.key,
+    required this.iconData,
+    required this.title,
+    required this.subtitle,
+    this.onChanged,
+    this.switchValue = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
       margin: const EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.symmetric(horizontal: 4,vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.white,
@@ -31,7 +37,7 @@ class SettingTile extends StatelessWidget {
       ),
       child: ListTile(
         leading: Container(
-          padding: const EdgeInsets.all(12), // Good practice to use const
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: DColors.primary.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
@@ -40,16 +46,18 @@ class SettingTile extends StatelessWidget {
         ),
         title: Text(title),
         subtitle: Text(subtitle),
-        // --- CORRECTED TRAILING ARGUMENT ---
         trailing: onChanged != null
             ? Switch(
-          activeTrackColor: DColors.primary,
-          activeThumbColor: DColors.fWhite,
-          value: true, // You might want this to be a stateful value later
-          onChanged: onChanged,
-        )
+              value: switchValue,
+              onChanged: onChanged,
+              activeTrackColor: DColors.primary,
+              activeThumbColor: DColors.fWhite,
+              inactiveThumbColor: DColors.fWhite,
+              inactiveTrackColor: Colors.grey.shade300,
+              trackOutlineColor:
+              WidgetStateProperty.all(Colors.transparent),
+            )
             : null,
-        // ------------------------------------
       ),
     );
   }

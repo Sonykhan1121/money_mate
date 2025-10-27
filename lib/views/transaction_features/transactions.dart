@@ -35,11 +35,19 @@ class _TransactionsState extends State<Transactions> {
 
         return SafeArea(
           child: Scaffold(
+            appBar: AppBar(
+              title: Text('All Transactions'),
+              actions: [
+                IconButton(onPressed: (){}, icon: Icon(Icons.download_for_offline_rounded,color: DColors.primary,)),
+                SizedBox(width: 10,)
+              ],
+
+            ),
               body: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
-                    SizedBox(height: 10,),
+                    // SizedBox(height: 10,),
                     Row(
                       children: [
                         Expanded(
