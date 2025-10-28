@@ -2,21 +2,20 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:money_mate/localdata/localData.dart';
 import 'package:money_mate/providers/navigation_provider.dart';
 import 'package:money_mate/providers/transactions_provider.dart';
 import 'package:money_mate/theme/theme.dart';
 import 'package:money_mate/utils/constants/colors.dart';
 import 'package:money_mate/views/navigation_features/navigation_page.dart';
+import 'package:money_mate/views/security_features/pin_screen.dart';
+import 'package:money_mate/views/splash_features/splash_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+Future<void> main() async {
 
-  // SystemChrome.setSystemUIOverlayStyle(
-  //    SystemUiOverlayStyle(
-  //     statusBarColor: DColors.primary,
-  //     statusBarIconBrightness: Brightness.light,
-  //   ),
-  // );
+ WidgetsFlutterBinding.ensureInitialized();
+ await LocalData.initialize();
   runApp(
     DevicePreview(
       enabled: true,
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: DAppTheme.lightTheme,
-            home: NavigationPage(),
+            home: (false)?SplashScreen():PinScreen(),
           ),
         );
       }
