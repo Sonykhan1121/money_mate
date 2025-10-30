@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_mate/providers/transactions_provider.dart';
+import 'package:money_mate/views/transaction_features/transaction_details.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/transaction.dart';
@@ -129,20 +130,29 @@ class _TransactionsState extends State<Transactions> {
                           ...items.map((t) => Card(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 4, vertical: 2),
-                            child: ListTile(
-                              title: Text(t.title),
-                              subtitle: Text(
-                                  DateFormat('hh:mm a').format(t.date)),
-                              trailing: Text(
-                                '${(t.type ==
-                      TransactionType.income)
-                      ? "+"
-                          : "-"}৳${t.amount.toStringAsFixed(2)}',
-                                style: TextStyle(
-                                    color: t.type ==
-                                        TransactionType.income
-                                        ? Colors.green
-                                        : Colors.red),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TransactionDetails()));
+                              },
+                              child: ListTile(
+                                title: Text(t.title),
+                                subtitle: Text(
+                                    DateFormat('hh:mm a').format(t.date)),
+                                trailing: Text(
+                                  '${(t.type ==
+                                                    TransactionType.income)
+                                                    ? "+"
+                                                        : "-"}৳${t.amount.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                      color: t.type ==
+                                          TransactionType.income
+                                          ? Colors.green
+                                          : Colors.red),
+                                ),
                               ),
                             ),
                           )),
