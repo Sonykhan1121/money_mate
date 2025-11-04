@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_mate/views/home_features/recent_transactions.dart';
 
 import '../../utils/constants/colors.dart';
+import '../../utils/constants/icons.dart';
 import '../../widgets/mini_bar_chart.dart';
 
 class HomePage extends StatefulWidget {
@@ -45,14 +46,28 @@ class _HomePageState extends State<HomePage> {
                       children: [
           
                         // Greeting
-                         Text(
-                          'Good Morning',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
+                         Row(
+                           children: [
+                             Text(
+                              'Good Morning',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                                                     ),
+                             Spacer(),
+                             InkWell(
+                               onTap: (){
+
+                               },
+                               child: CircleAvatar(
+                                 radius: 15,
+                                 child: Image.asset(DIcons.app_logo1),
+                               ),
+                             )
+                           ],
+                         ),
                         const SizedBox(height: 4),
                         // Name with wave emoji
                         Row(
@@ -69,6 +84,7 @@ class _HomePageState extends State<HomePage> {
                               '👋',
                               style: TextStyle(fontSize: 20),
                             ),
+
                           ],
                         ),
                         const SizedBox(height: 10),
@@ -102,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                               Row(
                                 children: [
                                    Text(
-                                    '৳',
+                                    'Tk',
                                     style: TextStyle(
                                       color: DColors.fBlack,
                                       fontSize: 30,
@@ -163,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                       Row(
                                         children: [
                                           Text(
-                                            '৳',
+                                            'Tk',
                                             style: TextStyle(
                                               color: DColors.success,
                                               fontSize: 22,
@@ -224,7 +240,7 @@ class _HomePageState extends State<HomePage> {
                                       Row(
                                         children: [
                                           Text(
-                                            '৳',
+                                            'Tk',
                                             style: TextStyle(
                                               color: DColors.error,
                                               fontSize: 22,

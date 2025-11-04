@@ -9,3 +9,10 @@ TextSelectionThemeData textSelectionTheme() {
     selectionHandleColor: DColors.primary,        // draggable handle color
   );
 }
+TextSelectionThemeData textSelectionThemeDark() {
+  return TextSelectionThemeData(
+    cursorColor: DColors.primary,
+    selectionColor: DColors.primary.withOpacity(0.4),
+    selectionHandleColor: DColors.primary,
+  );
+}

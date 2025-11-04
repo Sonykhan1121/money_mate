@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_mate/localdata/localData.dart';
 import 'package:money_mate/providers/navigation_provider.dart';
+import 'package:money_mate/providers/theme_provider.dart';
 import 'package:money_mate/providers/transactions_provider.dart';
 import 'package:money_mate/theme/theme.dart';
 import 'package:money_mate/utils/constants/colors.dart';
@@ -41,13 +42,18 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => NavigationProvider()),
             ChangeNotifierProvider(create: (context) => TransactionsProvider()),
+            ChangeNotifierProvider(create: (context) => ThemeProvider()),
           ],
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: DAppTheme.lightTheme,
-            home: (false)?SplashScreen():PinScreen(),
-          ),
+          child: Consumer<ThemeProvider>(builder: (_,tProvider,_){
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              theme: DAppTheme.lightTheme,
+              darkTheme: DAppTheme.nightTheme,
+              themeMode: tProvider.isDarkMode?ThemeMode.dark:ThemeMode.light,
+              home: (LocalData.pin.isNotEmpty)?PinScreen():NavigationPage(),
+            );
+          }),
         );
       }
     );

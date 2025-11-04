@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_mate/views/navigation_features/navigation_page.dart';
+import 'package:money_mate/views/splash_features/splash_screen.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../localdata/localData.dart';
@@ -55,11 +56,11 @@ class _PinScreenState extends State<PinScreen> {
               autofocus: true,
               defaultPinTheme: buildDefaultPinTheme(),
               onCompleted: (pin){
-                if(pin==LocalData.pin||pin=='9876')
+                if(pin==LocalData.pin)
                   {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => NavigationPage()),
+                      MaterialPageRoute(builder: (context) => SplashScreen()),
                     );
 
                   }

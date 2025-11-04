@@ -16,7 +16,7 @@ class _MiniBarChartState extends State<MiniBarChart> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: DColors.fWhite,
+        // color: DColors.fWhite,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -33,7 +33,7 @@ class _MiniBarChartState extends State<MiniBarChart> {
           Text(
             'Last 7 Days',
             style: TextStyle(
-              color: DColors.fBlack,
+              // color: DColors.fBlack,
               fontWeight: FontWeight.bold,
               fontSize: 14,
             ),

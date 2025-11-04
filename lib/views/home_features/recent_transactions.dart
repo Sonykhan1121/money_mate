@@ -25,7 +25,7 @@ class _RecentTransactionsState extends State<RecentTransactions> {
       return  Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
@@ -41,7 +41,7 @@ class _RecentTransactionsState extends State<RecentTransactions> {
             Text(
               'Recent Transactions',
               style: TextStyle(
-                color: DColors.fBlack,
+                // color: DColors.fBlack,
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
               ),
@@ -66,7 +66,7 @@ class _RecentTransactionsState extends State<RecentTransactions> {
                     '${transaction.date.day}/${transaction.date.month}/${transaction.date.year} - ${transaction.categoryId}',
                   ),
                   trailing: Text(
-                    '${transaction.type == TransactionType.expense ? '-' : ''}\$${transaction.amount.toStringAsFixed(2)}',
+                    '${transaction.type == TransactionType.expense ? '-' : ''}Tk${transaction.amount.toStringAsFixed(2)}',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: transaction.type == TransactionType.income

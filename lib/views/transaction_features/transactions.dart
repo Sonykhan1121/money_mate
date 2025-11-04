@@ -146,7 +146,7 @@ class _TransactionsState extends State<Transactions> {
                                   '${(t.type ==
                                                     TransactionType.income)
                                                     ? "+"
-                                                        : "-"}৳${t.amount.toStringAsFixed(2)}',
+                                                        : "-"}Tk${t.amount.toStringAsFixed(2)}',
                                   style: TextStyle(
                                       color: t.type ==
                                           TransactionType.income

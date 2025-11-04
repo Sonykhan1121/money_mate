@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalData{
-   static String _pin = "";
+   static String _pin = "1234";
    static String _pattern = "";
 
 
