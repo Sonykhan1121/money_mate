@@ -1,4 +1,4 @@
-import 'package:money_mate/models/transactionType.dart';
+import '../../../transactions/data/models/transactionType.dart';
 
 class CategoryModel {
   final String id;
@@ -69,9 +69,3 @@ class CategoryModel {
   }
 
 }
-
-String CAT_GROCERIES = 'cat_001';
-String CAT_SALARY = 'cat_002';
-String CAT_RENT = 'cat_003';
-String CAT_TRANSPORT = 'cat_004';
-String CAT_INVESTMENT = 'cat_005';

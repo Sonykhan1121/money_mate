@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../home/presentation/views/home_page.dart';
 import '../../../settings/presentation/views/setting_page.dart';
-import '../../../../views/transaction_features/transactions.dart';
+import '../../../transactions/presentation/views/transactions.dart';
 import '../../../add_expense/presentation/views/add_expense.dart';
 
 class NavigationProvider extends ChangeNotifier{

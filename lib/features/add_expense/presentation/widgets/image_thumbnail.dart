@@ -46,8 +46,8 @@ class _ThumbnailCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 150,
-        height: 150,
+        width: 50,
+        height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.grey.shade200,

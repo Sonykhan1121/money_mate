@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 class DatePickerField extends StatefulWidget {
+  final TextEditingController dateController;
   final void Function(DateTime)? onChanged;
 
-  const DatePickerField({super.key, this.onChanged});
+  const DatePickerField({super.key, this.onChanged,required this.dateController});
 
   @override
   State<DatePickerField> createState() => _DatePickerFieldState();
 }
 
 class _DatePickerFieldState extends State<DatePickerField> {
-  final TextEditingController _controller = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: _controller,
+      controller: widget.dateController,
       readOnly: true,
       decoration: const InputDecoration(
         hintText: 'Select Date',
@@ -29,7 +30,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
         );
 
         if (pickedDate != null) {
-          _controller.text = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+          widget.dateController.text = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
 
           // call the parent's onChanged
           if (widget.onChanged != null) {
@@ -37,6 +38,7 @@ class _DatePickerFieldState extends State<DatePickerField> {
           }
         }
       },
+      validator: (value) => value == null || value.isEmpty ? 'Please select a date' : null,
     );
   }
 }

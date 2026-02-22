@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../utils/constants/colors.dart';
+import '../../../../core/utils/constants/colors.dart';
 
 class TransactionDetails extends StatefulWidget {
   const TransactionDetails({super.key});

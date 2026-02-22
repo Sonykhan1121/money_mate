@@ -13,13 +13,4 @@ extension TransactionTypeExtension on TransactionType {
         return 'Expense';
     }
   }
-
-  String get nameBangla {
-    switch (this) {
-      case TransactionType.income:
-        return 'আয়';
-      case TransactionType.expense:
-        return 'খরচ';
-    }
-  }
 }

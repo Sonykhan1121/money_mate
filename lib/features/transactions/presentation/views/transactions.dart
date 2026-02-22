@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:money_mate/providers/transactions_provider.dart';
-import 'package:money_mate/views/transaction_features/transaction_details.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../data/models/transactionModel.dart';
+import '../../data/models/transactionType.dart';
+import '../../../../core/utils/constants/colors.dart';
+import 'package:money_mate/features/transactions/presentation/viewmodels/transactions_provider.dart';
+import 'package:money_mate/features/transactions/presentation/views/transaction_details.dart';
 
-import '../../models/transaction.dart';
-import '../../models/transactionType.dart';
-import '../../utils/constants/colors.dart';
 
 class Transactions extends StatefulWidget {
   const Transactions({super.key});
@@ -31,7 +31,7 @@ class _TransactionsState extends State<Transactions> {
     return Consumer<TransactionsProvider>(
       builder: (BuildContext context, TransactionsProvider tProvider, Widget? child) {
 
-        final Map<String, List<Transaction>> grouped = tProvider.listToMap(tProvider.mockTransactions);
+        final Map<String, List<TransactionModel>> grouped = tProvider.listToMap(tProvider.allTransactions);
 
 
         return SafeArea(
@@ -141,10 +141,9 @@ class _TransactionsState extends State<Transactions> {
                               child: ListTile(
                                 title: Text(t.title),
                                 subtitle: Text(
-                                    DateFormat('hh:mm a').format(t.date)),
+                                    DateFormat('hh:mm a').format(t.customDate)),
                                 trailing: Text(
-                                  '${(t.type ==
-                                                    TransactionType.income)
+                                  '${(t.type == TransactionType.income)
                                                     ? "+"
                                                         : "-"}Tk${t.amount.toStringAsFixed(2)}',
                                   style: TextStyle(

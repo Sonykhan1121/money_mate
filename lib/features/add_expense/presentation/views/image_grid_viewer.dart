@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../viewmodels/add_expense_provider.dart';
 import '../widgets/image_thumbnail.dart';
+import '../viewmodels/add_expense_provider.dart';
 
 class ImageGridViewer extends StatefulWidget {
   final double spacing;
