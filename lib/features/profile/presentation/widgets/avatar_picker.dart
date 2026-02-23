@@ -5,27 +5,30 @@ import '../../../../core/utils/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AvatarPicker extends StatefulWidget {
-  final AvatarResult? initial;
+  final AvatarResult? previous;
   final void Function(AvatarResult result)? onAvatarSelected;
 
-  const AvatarPicker({super.key, this.onAvatarSelected,this.initial});
+  const AvatarPicker({super.key, this.onAvatarSelected, this.previous});
 
   @override
   State<AvatarPicker> createState() => _AvatarPickerState();
 }
 
 class _AvatarPickerState extends State<AvatarPicker> {
-  AvatarResult? _selected;
+  AvatarResult? _newOne;
+
+  // ✅ whichever is more recent wins
+  AvatarResult? get _effective => _newOne ?? widget.previous;
 
   void _openDialog() async {
     final result = await showDialog<AvatarResult>(
       context: context,
       barrierColor: Colors.black.withOpacity(0.55),
-      builder: (_) => AvatarPickerDialog(current: _selected),
+      builder: (_) => AvatarPickerDialog(current: widget.previous, ),
     );
 
     if (result != null) {
-      setState(() => _selected = result);
+      setState(() => _newOne = result);
       widget.onAvatarSelected?.call(result);
     }
   }
@@ -34,11 +37,10 @@ class _AvatarPickerState extends State<AvatarPicker> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _openDialog,
-      child: _AvatarStack(selected: _selected),
+      child: _AvatarStack(selected: _effective), // ✅ pass effective not previous
     );
   }
 }
-
 // ─── Stack: circle + camera badge ────────────────────────────────────────────
 
 class _AvatarStack extends StatelessWidget {

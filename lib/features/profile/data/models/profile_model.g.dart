@@ -27,28 +27,34 @@ const ProfileModelSchema = CollectionSchema(
       name: r'age',
       type: IsarType.long,
     ),
-    r'bio': PropertySchema(
+    r'avatarType': PropertySchema(
       id: 2,
+      name: r'avatarType',
+      type: IsarType.byte,
+      enumMap: _ProfileModelavatarTypeEnumValueMap,
+    ),
+    r'bio': PropertySchema(
+      id: 3,
       name: r'bio',
       type: IsarType.string,
     ),
     r'email': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'email',
       type: IsarType.string,
     ),
     r'imagePath': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'imagePath',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'name',
       type: IsarType.string,
     ),
     r'phone': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'phone',
       type: IsarType.string,
     )
@@ -58,7 +64,21 @@ const ProfileModelSchema = CollectionSchema(
   deserialize: _profileModelDeserialize,
   deserializeProp: _profileModelDeserializeProp,
   idName: r'id',
-  indexes: {},
+  indexes: {
+    r'avatarType': IndexSchema(
+      id: 5717303880886970803,
+      name: r'avatarType',
+      unique: false,
+      replace: false,
+      properties: [
+        IndexPropertySchema(
+          name: r'avatarType',
+          type: IndexType.value,
+          caseSensitive: false,
+        )
+      ],
+    )
+  },
   links: {},
   embeddedSchemas: {},
   getId: _profileModelGetId,
@@ -120,11 +140,12 @@ void _profileModelSerialize(
 ) {
   writer.writeString(offsets[0], object.address);
   writer.writeLong(offsets[1], object.age);
-  writer.writeString(offsets[2], object.bio);
-  writer.writeString(offsets[3], object.email);
-  writer.writeString(offsets[4], object.imagePath);
-  writer.writeString(offsets[5], object.name);
-  writer.writeString(offsets[6], object.phone);
+  writer.writeByte(offsets[2], object.avatarType.index);
+  writer.writeString(offsets[3], object.bio);
+  writer.writeString(offsets[4], object.email);
+  writer.writeString(offsets[5], object.imagePath);
+  writer.writeString(offsets[6], object.name);
+  writer.writeString(offsets[7], object.phone);
 }
 
 ProfileModel _profileModelDeserialize(
@@ -136,12 +157,15 @@ ProfileModel _profileModelDeserialize(
   final object = ProfileModel(
     address: reader.readStringOrNull(offsets[0]),
     age: reader.readLongOrNull(offsets[1]),
-    bio: reader.readStringOrNull(offsets[2]),
-    email: reader.readStringOrNull(offsets[3]),
+    avatarType: _ProfileModelavatarTypeValueEnumMap[
+            reader.readByteOrNull(offsets[2])] ??
+        AvatarType.file,
+    bio: reader.readStringOrNull(offsets[3]),
+    email: reader.readStringOrNull(offsets[4]),
     id: id,
-    imagePath: reader.readStringOrNull(offsets[4]),
-    name: reader.readStringOrNull(offsets[5]),
-    phone: reader.readStringOrNull(offsets[6]),
+    imagePath: reader.readStringOrNull(offsets[5]),
+    name: reader.readStringOrNull(offsets[6]),
+    phone: reader.readStringOrNull(offsets[7]),
   );
   return object;
 }
@@ -158,7 +182,9 @@ P _profileModelDeserializeProp<P>(
     case 1:
       return (reader.readLongOrNull(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (_ProfileModelavatarTypeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          AvatarType.file) as P;
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
@@ -167,10 +193,21 @@ P _profileModelDeserializeProp<P>(
       return (reader.readStringOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
+    case 7:
+      return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
+
+const _ProfileModelavatarTypeEnumValueMap = {
+  'asset': 0,
+  'file': 1,
+};
+const _ProfileModelavatarTypeValueEnumMap = {
+  0: AvatarType.asset,
+  1: AvatarType.file,
+};
 
 Id _profileModelGetId(ProfileModel object) {
   return object.id;
@@ -190,6 +227,14 @@ extension ProfileModelQueryWhereSort
   QueryBuilder<ProfileModel, ProfileModel, QAfterWhere> anyId() {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhere> anyAvatarType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        const IndexWhereClause.any(indexName: r'avatarType'),
+      );
     });
   }
 }
@@ -258,6 +303,98 @@ extension ProfileModelQueryWhere
         lower: lowerId,
         includeLower: includeLower,
         upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhereClause> avatarTypeEqualTo(
+      AvatarType avatarType) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.equalTo(
+        indexName: r'avatarType',
+        value: [avatarType],
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhereClause>
+      avatarTypeNotEqualTo(AvatarType avatarType) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'avatarType',
+              lower: [],
+              upper: [avatarType],
+              includeUpper: false,
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'avatarType',
+              lower: [avatarType],
+              includeLower: false,
+              upper: [],
+            ));
+      } else {
+        return query
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'avatarType',
+              lower: [avatarType],
+              includeLower: false,
+              upper: [],
+            ))
+            .addWhereClause(IndexWhereClause.between(
+              indexName: r'avatarType',
+              lower: [],
+              upper: [avatarType],
+              includeUpper: false,
+            ));
+      }
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhereClause>
+      avatarTypeGreaterThan(
+    AvatarType avatarType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'avatarType',
+        lower: [avatarType],
+        includeLower: include,
+        upper: [],
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhereClause>
+      avatarTypeLessThan(
+    AvatarType avatarType, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'avatarType',
+        lower: [],
+        upper: [avatarType],
+        includeUpper: include,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterWhereClause> avatarTypeBetween(
+    AvatarType lowerAvatarType,
+    AvatarType upperAvatarType, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IndexWhereClause.between(
+        indexName: r'avatarType',
+        lower: [lowerAvatarType],
+        includeLower: includeLower,
+        upper: [upperAvatarType],
         includeUpper: includeUpper,
       ));
     });
@@ -483,6 +620,62 @@ extension ProfileModelQueryFilter
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
         property: r'age',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      avatarTypeEqualTo(AvatarType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'avatarType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      avatarTypeGreaterThan(
+    AvatarType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'avatarType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      avatarTypeLessThan(
+    AvatarType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'avatarType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterFilterCondition>
+      avatarTypeBetween(
+    AvatarType lower,
+    AvatarType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'avatarType',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
@@ -1335,6 +1528,19 @@ extension ProfileModelQuerySortBy
     });
   }
 
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> sortByAvatarType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      sortByAvatarTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarType', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> sortByBio() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'bio', Sort.asc);
@@ -1419,6 +1625,19 @@ extension ProfileModelQuerySortThenBy
   QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> thenByAgeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'age', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy> thenByAvatarType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProfileModel, ProfileModel, QAfterSortBy>
+      thenByAvatarTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'avatarType', Sort.desc);
     });
   }
 
@@ -1510,6 +1729,12 @@ extension ProfileModelQueryWhereDistinct
     });
   }
 
+  QueryBuilder<ProfileModel, ProfileModel, QDistinct> distinctByAvatarType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'avatarType');
+    });
+  }
+
   QueryBuilder<ProfileModel, ProfileModel, QDistinct> distinctByBio(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1563,6 +1788,13 @@ extension ProfileModelQueryProperty
   QueryBuilder<ProfileModel, int?, QQueryOperations> ageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'age');
+    });
+  }
+
+  QueryBuilder<ProfileModel, AvatarType, QQueryOperations>
+      avatarTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'avatarType');
     });
   }
 

@@ -1,6 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:money_mate/core/routing/route_names.dart';
 import 'package:provider/provider.dart';
+import '../../../home/presentation/widgets/transaction_tile.dart';
 import '../../data/models/transactionModel.dart';
 import '../../data/models/transactionType.dart';
 import '../../../../core/utils/constants/colors.dart';
@@ -39,7 +42,9 @@ class _TransactionsState extends State<Transactions> {
             appBar: AppBar(
               title: Text('All Transactions'),
               actions: [
-                IconButton(onPressed: (){}, icon: Icon(Icons.download_for_offline_rounded,color: DColors.primary,)),
+                IconButton(onPressed: (){
+
+                }, icon: Icon(Icons.download_for_offline_rounded,color: DColors.primary,)),
                 SizedBox(width: 10,)
               ],
 
@@ -99,10 +104,6 @@ class _TransactionsState extends State<Transactions> {
                       }).toList(),
                     ),
                   ),
-
-
-
-
                 SizedBox(height: 10,),
                 Expanded(
                   child: ListView.builder(
@@ -132,27 +133,9 @@ class _TransactionsState extends State<Transactions> {
                                 horizontal: 4, vertical: 2),
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TransactionDetails()));
+                                context.push(RouteNames.transaction(t.id));
                               },
-                              child: ListTile(
-                                title: Text(t.title),
-                                subtitle: Text(
-                                    DateFormat('hh:mm a').format(t.customDate)),
-                                trailing: Text(
-                                  '${(t.type == TransactionType.income)
-                                                    ? "+"
-                                                        : "-"}Tk${t.amount.toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                      color: t.type ==
-                                          TransactionType.income
-                                          ? Colors.green
-                                          : Colors.red),
-                                ),
-                              ),
+                              child: TransactionTile(transaction: t),
                             ),
                           )),
                         ],

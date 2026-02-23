@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
+import '../../../../core/services/isar_service.dart';
 import '../models/transactionType.dart';
 import '../models/transactionModel.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,18 +11,8 @@ class TransactionService {
   factory TransactionService() => _instance;
   TransactionService._internal();
 
-  Isar? _db;
-
-  // ─── Lazy getter for Isar ───────────────────
-  Future<Isar> get db async {
-    if (_db != null) return _db!;
-    final dir = await getApplicationDocumentsDirectory();
-    _db = await Isar.open(
-      [TransactionModelSchema],
-      directory: dir.path,
-    );
-    return _db!;
-  }
+  final _isarService = IsarService();
+  Future<Isar> get db => _isarService.db;
 
   // ─── CRUD Operations ────────────────────────
 

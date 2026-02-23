@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:money_mate/core/utils/extensions/provider_extension.dart';
+import 'package:money_mate/features/profile/data/models/profile_model.dart';
 import '../../../core/local/localData.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/utils/constants/colors.dart';
@@ -100,6 +102,10 @@ class WelcomeContinueButton extends StatelessWidget {
   void _onContinue(BuildContext context) {
     LocalData.name = name;
     LocalData.firstTime = false;
+    ProfileModel profile = ProfileModel(
+      name: LocalData.name,
+    );
+    context.profileProvider.saveProfile(profile);
     context.go(RouteNames.mainNavigation);
   }
 }

@@ -1,19 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:money_mate/core/routing/route_names.dart';
-import 'package:money_mate/features/home/presentation/widgets/income_card.dart';
-import 'package:money_mate/features/home/presentation/widgets/total_balance_card.dart';
-import 'package:provider/provider.dart';
-import '../../../../core/local/localData.dart';
-import '../viewmodels/home_provider.dart';
-import '../widgets/expenses_card.dart';
-import '../widgets/mini_bar_chart.dart';
-import '../../../../core/utils/constants/icons.dart';
-import '../../../../core/utils/constants/colors.dart';
-import 'package:money_mate/core/utils/extensions/provider_extension.dart';
-import 'package:money_mate/features/home/presentation/views/recent_transactions.dart';
+import 'dart:io';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:money_mate/features/profile/presentation/view_model/profile_provider.dart';
+import 'package:money_mate/features/profile/presentation/widgets/avatar_result.dart';
+
+import '../../data/services/transaction_pdf_service.dart';
+import '../widgets/expenses_card.dart';
+import '../widgets/month_selector.dart';
 import '../widgets/show_greeting.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../widgets/mini_bar_chart.dart';
+import 'package:go_router/go_router.dart';
+import '../viewmodels/home_provider.dart';
+import '../../../../core/local/localData.dart';
+import '../../../../core/utils/constants/colors.dart';
+import 'package:money_mate/core/routing/route_names.dart';
+import 'package:money_mate/core/utils/extensions/provider_extension.dart';
+import 'package:money_mate/features/home/presentation/widgets/income_card.dart';
+import '../../../transactions/presentation/viewmodels/transactions_provider.dart';
+import 'package:money_mate/features/home/presentation/views/recent_transactions.dart';
+import 'package:money_mate/features/home/presentation/widgets/total_balance_card.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -25,7 +33,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-   return Consumer<HomeProvider>(builder: (_,homeProvider,_){
+   return Consumer3<HomeProvider,TransactionsProvider,ProfileProvider>(builder: (_,homeProvider,tProvider,pProvider,_){
+     final month = homeProvider.selectedMonth;
+     final totalIncome   = tProvider.getTotalIncomeByMonth(month);
+     final totalExpenses = tProvider.getTotalExpensesByMonth(month);
+     final totalBalance  = tProvider.getTotalBalanceByMonth(month);
+     String name = pProvider.profile!=null?pProvider.profile!.name!: LocalData.name;
+
      return SafeArea(
        child: Scaffold(
          body: SingleChildScrollView(
@@ -59,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                                onTap: () {
                                  context.push(RouteNames.profile);
                                },
-                               child: CircleAvatar(radius: 15, child: Icon(Icons.account_circle_outlined)),
+                               child: getProfileWidget(pProvider),
                              ),
                            ],
                          ),
@@ -68,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                          Row(
                            children: [
                              Text(
-                               LocalData.name,
+                               name,
                                style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
                              ),
                              Text('👋', style: TextStyle(fontSize: 20)),
@@ -76,14 +90,14 @@ class _HomePageState extends State<HomePage> {
                          ),
                          const SizedBox(height: 10),
                          // Balance Card
-                         TotalBalanceCard(),
+                         TotalBalanceCard(totalBalance: totalBalance,),
 
                          SizedBox(height: 10),
                          Row(
                            children: [
-                             IncomeCard(),
+                             IncomeCard(totalIncome: totalIncome,),
                              // Expenses Card
-                             ExpensesCard(),
+                             ExpensesCard(totalExpenses: totalExpenses,),
                            ],
                          ),
                        ],
@@ -91,11 +105,27 @@ class _HomePageState extends State<HomePage> {
                    ),
                  ],
                ),
+               InkWell(
+                 onTap: () async {
+                   await TransactionPdfService.generateAndShare(
+                     transactions: tProvider.allTransactions,
+                     getCategoryName: (id) => context.addExpenseProvider.getCategoryById(id).name,
+                   );
+                 },
+                 child: Container(
+                   child: Text('pdf'),
+                 ),
+               ),
+
+               MonthSelector(
+                 selectedMonth: homeProvider.selectedMonth,
+                 onChanged: homeProvider.setSelectedMonth,
+               ),
 
                // Rest of your content goes here
-               Padding(padding: const EdgeInsets.all(20), child: MiniBarChart(data: [5, 8, 20, 5, 30, 8, 20,28,78])),
+               Padding(padding: const EdgeInsets.all(20), child: MiniBarChart(selectedMonth: homeProvider.selectedMonth,)),
 
-               Padding(padding: const EdgeInsets.all(20), child: RecentTransactions()),
+               Padding(padding: const EdgeInsets.all(20), child: RecentTransactions(selectedMonth: homeProvider.selectedMonth,)),
              ],
            ),
          ),
@@ -108,5 +138,21 @@ class _HomePageState extends State<HomePage> {
        ),
      );
    });
+  }
+
+  Widget getProfileWidget(ProfileProvider pProvider) {
+    if(pProvider.profile!=null&&pProvider.profile!.imagePath!=null)
+      {
+        if(pProvider.profile!.avatarType==AvatarType.asset)
+          {
+            return CircleAvatar(radius: 20, backgroundImage: AssetImage(pProvider.profile!.imagePath!));
+
+          }else
+            {
+
+        return CircleAvatar(radius: 20, backgroundImage: FileImage(File(pProvider.profile!.imagePath!)));
+            }
+      }
+    return CircleAvatar(radius: 20, child: Icon(Icons.account_circle_outlined));
   }
 }

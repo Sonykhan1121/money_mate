@@ -1,10 +1,10 @@
-import '../../../transactions/data/models/transactionModel.dart';
-import '../../../transactions/domain/repositories/transaction_repository.dart';
 import '../../data/models/result.dart';
 import 'package:flutter/cupertino.dart';
 import '../../data/models/category.dart';
 import '../../../transactions/data/models/transactionType.dart';
+import '../../../transactions/data/models/transactionModel.dart';
 import '../../domain/repositories/document_scanner_repository.dart';
+import '../../../transactions/domain/repositories/transaction_repository.dart';
 
 
 class AddExpenseProvider extends ChangeNotifier {

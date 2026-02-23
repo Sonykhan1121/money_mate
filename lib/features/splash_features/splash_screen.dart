@@ -32,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
     else
       {
         context.go(RouteNames.mainNavigation);
-        
       }
   }
 
