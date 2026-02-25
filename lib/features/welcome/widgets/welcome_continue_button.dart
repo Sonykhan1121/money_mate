@@ -102,10 +102,10 @@ class WelcomeContinueButton extends StatelessWidget {
   void _onContinue(BuildContext context) {
     LocalData.name = name;
     LocalData.firstTime = false;
+    context.go(RouteNames.mainNavigation);
     ProfileModel profile = ProfileModel(
       name: LocalData.name,
     );
     context.profileProvider.saveProfile(profile);
-    context.go(RouteNames.mainNavigation);
   }
 }

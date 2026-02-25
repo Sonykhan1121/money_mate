@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../../core/routing/route_names.dart';
 import '../../../../core/utils/constants/colors.dart';
 import '../../../transactions/data/models/transactionType.dart';
@@ -75,18 +78,39 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                 child: Row(
                   children: [
                     // ── Category Icon ──────────────────────────────────────
-                    FutureBuilder<String>(
-                      future: getCategoryIcon(context, widget.transaction.categoryId),
+                    // ── Category Icon ──────────────────────────────────────
+                    FutureBuilder<List<dynamic>>(
+                      future: Future.wait([
+                        getCategoryIcon(context, widget.transaction.categoryId),
+                        getFirstImagePath(context, id: widget.transaction.id),
+                      ]),
                       builder: (context, snapshot) {
+                        final String? imagePath = snapshot.data?[1] as String?;
+                        final String? icon      = snapshot.data?[0] as String?;
+
                         return Container(
                           height: 50,
                           width: 50,
-                          decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(14)),
-                          child: Center(
-                            child:
-                            snapshot.hasData
-                                ? Text(snapshot.data!, style: const TextStyle(fontSize: 22, height: 1.0))
-                                : Icon(Icons.category_outlined, color: color, size: 22),
+                          decoration: BoxDecoration(
+                            color: bgColor,
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: imagePath != null
+                            // ── Has image → show it ──────────────────
+                                ? Image.file(
+                              File(imagePath),
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                            )
+                            // ── No image → show category emoji ───────
+                                : Center(
+                              child: icon != null
+                                  ? Text(icon, style: const TextStyle(fontSize: 22, height: 1.0))
+                                  : Icon(Icons.category_outlined, color: color, size: 22),
+                            ),
                           ),
                         );
                       },
@@ -98,11 +122,24 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                      Row(
+                        children: [
+                          Text(
+                            widget.transaction.title.isEmpty ? 'No title' : widget.transaction.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14,
+                              color: Color(0xFF1A1A2E),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(width: 10,),
                           FutureBuilder<String>(
                             future: getCategoryName(context, widget.transaction.categoryId),
                             builder: (context, snapshot) {
                               return Text(
-                                snapshot.data ?? '...',
+                                "(${snapshot.data})" ??"...",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
@@ -113,6 +150,8 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                               );
                             },
                           ),
+                        ],
+                      ),
                           const SizedBox(height: 5),
                           Row(
                             children: [
@@ -122,25 +161,22 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                                 _formatDate(widget.transaction.customDate),
                                 style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
                               ),
-                              if (widget.transaction.paymentMethod != null) ...[
-                                const SizedBox(width: 8),
-                                Container(
-                                  width: 3,
-                                  height: 3,
-                                  decoration: BoxDecoration(color: Colors.grey.shade400, shape: BoxShape.circle),
+                              if (widget.transaction.paymentMethod != null)
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      _paymentIcon(widget.transaction.paymentMethod),
+                                      size: 11,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      widget.transaction.paymentMethod!,
+                                      style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
+                                    ),
+                                  ],
                                 ),
-                                const SizedBox(width: 8),
-                                Icon(
-                                  _paymentIcon(widget.transaction.paymentMethod),
-                                  size: 11,
-                                  color: Colors.grey.shade400,
-                                ),
-                                const SizedBox(width: 3),
-                                Text(
-                                  widget.transaction.paymentMethod!,
-                                  style: TextStyle(color: Colors.grey.shade500, fontSize: 11),
-                                ),
-                              ],
                             ],
                           ),
                           if (widget.transaction.tags != null && widget.transaction.tags!.isNotEmpty) ...[
@@ -226,6 +262,23 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
 
   Future<String> getCategoryName(BuildContext context, String categoryId) async {
     return context.addExpenseProvider.getCategoryById(categoryId).name;
+  }
+
+  Future<String?> getFirstImagePath(BuildContext context, {required int id}) async {
+    String? test = await context.transactionProvider.getTransactionFirstImagePathIfExist(id);
+    debugPrint('id1 : $id and imageUrl : $test');
+    //if not null then validate the string
+    if (test != null) {
+      if (test.isEmpty) {
+        return null;
+      }
+      else {
+        test = Uri.parse(test).toFilePath();
+        debugPrint('id2 : $id and imageUrl : $test');
+        return test;
+      }
+    }
+    return test;
   }
 
   Future<String> getCategoryIcon(BuildContext context, String categoryId) async {

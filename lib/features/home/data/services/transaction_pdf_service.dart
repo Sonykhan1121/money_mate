@@ -62,10 +62,6 @@ class TransactionPdfService {
           pw.SizedBox(height: 20),
           _buildSummaryCards(totalIncome, totalExpense, netBalance, fontBold, font),
           pw.SizedBox(height: 24),
-          _buildSectionTitle('Category Breakdown (Expenses)', fontBold),
-          pw.SizedBox(height: 8),
-          _buildCategoryTable(sortedCategories, totalExpense, font, fontBold, getCategoryName),
-          pw.SizedBox(height: 24),
           _buildSectionTitle('Transaction Details', fontBold),
           pw.SizedBox(height: 8),
           _buildTransactionTable(transactions, font, fontBold, fontLight, getCategoryName),
@@ -231,65 +227,6 @@ class TransactionPdfService {
     );
   }
 
-  // ─── Category Table ───────────────────────────────────────────────────────
-  static pw.Widget _buildCategoryTable(
-      List<MapEntry<String, double>> categories,
-      double totalExpense,
-      pw.Font font,
-      pw.Font fontBold,
-      String Function(String) getCategoryName,
-      ) {
-    if (categories.isEmpty) {
-      return pw.Text('No expense data.',
-          style: pw.TextStyle(font: font, color: _grey));
-    }
-
-    return pw.Table(
-      border: pw.TableBorder.all(color: _bgLight, width: 1),
-      columnWidths: {
-        0: const pw.FlexColumnWidth(3),
-        1: const pw.FlexColumnWidth(2),
-        2: const pw.FlexColumnWidth(2),
-      },
-      children: [
-        // Header
-        pw.TableRow(
-          decoration: const pw.BoxDecoration(color: _primary),
-          children: ['Category', 'Amount', '% of Total'].map((h) =>
-              pw.Padding(
-                padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                child: pw.Text(h,
-                    style: pw.TextStyle(font: fontBold, color: _white, fontSize: 10)),
-              ),
-          ).toList(),
-        ),
-        // Rows
-        ...categories.asMap().entries.map((entry) {
-          final i      = entry.key;
-          final cat    = entry.value;
-          final pct    = totalExpense > 0
-              ? (cat.value / totalExpense * 100).toStringAsFixed(1)
-              : '0.0';
-          final bgColor = i.isEven ? _white : _bgLight;
-
-          return pw.TableRow(
-            decoration: pw.BoxDecoration(color: bgColor),
-            children: [
-              getCategoryName(cat.key), // ✅ category name from id
-              '${_fmt(cat.value)}',
-              '$pct%',
-            ].map((cell) =>
-                pw.Padding(
-                  padding: const pw.EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-                  child: pw.Text(cell,
-                      style: pw.TextStyle(font: font, fontSize: 10, color: _dark)),
-                ),
-            ).toList(),
-          );
-        }),
-      ],
-    );
-  }
 
   // ─── Transaction Table ────────────────────────────────────────────────────
   static pw.Widget _buildTransactionTable(
@@ -312,14 +249,15 @@ class TransactionPdfService {
       columnWidths: {
         0: const pw.FlexColumnWidth(2),
         1: const pw.FlexColumnWidth(3),
-        2: const pw.FlexColumnWidth(2),
-        3: const pw.FlexColumnWidth(1.5),
+        2: const pw.FlexColumnWidth(5),
+        3: const pw.FlexColumnWidth(2),
+        4: const pw.FlexColumnWidth(1.5),
       },
       children: [
         // Header
         pw.TableRow(
           decoration: const pw.BoxDecoration(color: _primary),
-          children: ['Date', 'Category', 'Amount', 'Type'].map((h) =>
+          children: ['Date','Title', 'Category', 'Amount', 'Type'].map((h) =>
               pw.Padding(
                 padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: pw.Text(h,
@@ -332,6 +270,7 @@ class TransactionPdfService {
           final i        = entry.key;
           final t        = entry.value;
           final isIncome = t.type == TransactionType.income;
+          final title = t.title;
           final bgColor  = i.isEven ? _white : _bgLight;
           final amtColor = isIncome ? _income : _expense;
           final amtText  = '${isIncome ? '+' : '-'} ${_fmt(t.amount)}';
@@ -345,6 +284,14 @@ class TransactionPdfService {
                 child: pw.Text(
                   DateFormat('MMM d, yy').format(t.customDate),
                   style: pw.TextStyle(font: fontLight, fontSize: 9, color: _grey),
+                ),
+              ),
+              // title
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                child: pw.Text(
+                 title, // ✅
+                  style: pw.TextStyle(font: font, fontSize: 9, color: _dark),
                 ),
               ),
               // Category name

@@ -6,7 +6,7 @@ part 'transactionModel.g.dart';
 @collection
 class TransactionModel {
 
-  Id id = Isar.autoIncrement;
+  Id id ;
   final String title;
   final double amount;
 
@@ -31,6 +31,7 @@ class TransactionModel {
   final String? notes;
 
   TransactionModel({
+  this.id= Isar.autoIncrement,
     required this.title,
     required this.amount,
     required this.type,
@@ -50,6 +51,7 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
+      id: json['id'] as int,
       title: json["title"] as String,
       amount: (json["amount"] as num).toDouble(),
       type: TransactionType.values.firstWhere((e) => e.toString() == "TransactionType.${json["type"]}"),
@@ -58,7 +60,7 @@ class TransactionModel {
       createdAt: DateTime.parse(json["createdAt"] as String),
       customDate: DateTime.parse(json["customDate"] as String),
       updatedAt: json["updatedAt"] != null ? DateTime.parse(json["updatedAt"] as String) : null,
-      imageUrls: json["imageUrl"] != null ? List<String>.from(json["imageUrl"] as List) : null,
+      imageUrls: json["imageUrls"] != null ? List<String>.from(json["imageUrls"] as List) : null,
       location: json["location"] as String?,
       paymentMethod: json["paymentMethod"] as String?,
       tags: json["tags"] != null ? List<String>.from(json["tags"] as List) : null,
@@ -79,7 +81,7 @@ class TransactionModel {
       "createdAt": createdAt.toIso8601String(),
       "customDate": customDate.toIso8601String(),
       "updatedAt": updatedAt?.toIso8601String(),
-      "imageUrl": imageUrls,
+      "imageUrls": imageUrls,
       "location": location,
       "paymentMethod": paymentMethod,
       "tags": tags,
@@ -90,7 +92,7 @@ class TransactionModel {
   // ─── copyWith ─────────────────────────────────────────────────────────────
 
   TransactionModel copyWith({
-
+    int? id,
     String? title,
     double? amount,
     TransactionType? type,
@@ -106,7 +108,7 @@ class TransactionModel {
     String? notes,
   }) {
     return TransactionModel(
-
+      id: this.id,
       title: title ?? this.title,
       amount: amount ?? this.amount,
       type: type ?? this.type,
@@ -134,6 +136,6 @@ class TransactionModel {
   @override
   String toString() {
     return 'Transaction(id: $id, title: $title, amount: $amount, '
-        'type: $type, categoryId: $categoryId, createdAt: $createdAt , customDate: $customDate)';
+        'type: $type, categoryId: $categoryId, createdAt: $createdAt , customDate: $customDate ,$imageUrls)';
   }
 }

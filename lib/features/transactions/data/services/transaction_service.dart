@@ -43,6 +43,7 @@ class TransactionService {
 
   /// Updates a transaction, returns true if successful
   Future<bool> updateTransaction(TransactionModel txn) async {
+    debugPrint("updateTransaction called : $txn");
     try {
       final isar = await db;
       return await isar.writeTxn(() async {

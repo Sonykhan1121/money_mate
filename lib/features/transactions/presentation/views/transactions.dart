@@ -20,7 +20,7 @@ class Transactions extends StatefulWidget {
 
 class _TransactionsState extends State<Transactions> {
   final _scrollController = ScrollController();
-
+  final _searchController = TextEditingController();
 
 
   @override
@@ -28,26 +28,26 @@ class _TransactionsState extends State<Transactions> {
     // TODO: implement initState
     super.initState();
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _scrollController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<TransactionsProvider>(
       builder: (BuildContext context, TransactionsProvider tProvider, Widget? child) {
 
-        final Map<String, List<TransactionModel>> grouped = tProvider.listToMap(tProvider.allTransactions);
+        final Map<String, List<TransactionModel>> grouped = tProvider.listToMap(context,tProvider.allTransactions);
 
 
         return SafeArea(
           child: Scaffold(
             appBar: AppBar(
               title: Text('All Transactions'),
-              actions: [
-                IconButton(onPressed: (){
-
-                }, icon: Icon(Icons.download_for_offline_rounded,color: DColors.primary,)),
-                SizedBox(width: 10,)
-              ],
-
             ),
               body: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -58,11 +58,14 @@ class _TransactionsState extends State<Transactions> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: _searchController,
+                            onChanged: (value)=>tProvider.setSearchQuery(value),
                             decoration: InputDecoration(
                               hintText: 'Search transaction...',
                               prefixIcon: Icon(Icons.search),
                               suffixIcon: IconButton(onPressed: (){
-
+                                _searchController.clear();
+                                    tProvider.clearSearch();
                               }, icon: Icon(Icons.clear),),
                             ),
 
@@ -72,38 +75,68 @@ class _TransactionsState extends State<Transactions> {
                     ),
                     SizedBox(height: 10,),
 
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: tProvider.filters.map((filter) {
-                        bool isSelected = tProvider.selectedFilter == filter;
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                          child: InkWell(
-                            onTap: () => tProvider.setFilter(filter),
-                            child: Chip(
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              label: Text(
-                                filter,
-                                style: TextStyle(
-                                  color: isSelected ? Colors.white : DColors.grey,
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: tProvider.filters.map((filter) {
+                          bool isSelected = tProvider.selectedFilter == filter;
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: InkWell(
+                              onTap: () async {
+                                tProvider.setFilter(filter);
+                                if (filter == 'Custom') {
+                                  final picked = await showDateRangePicker(
+                                    context: context,
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime.now(),
+                                    initialDateRange: tProvider.customFrom != null && tProvider.customTo != null
+                                        ? DateTimeRange(start: tProvider.customFrom!, end: tProvider.customTo!)
+                                        : null,
+                                    builder: (context, child) => Theme(
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: ColorScheme.light(
+                                          primary: DColors.primary,
+                                          onPrimary: Colors.white,
+                                          surface: Colors.white,
+                                        ),
+                                      ),
+                                      child: child!,
+                                    ),
+                                  );
+                                  if (picked != null) {
+                                    tProvider.setCustomRange(picked.start, picked.end);
+                                  } else {
+                                    // User dismissed — revert to no filter
+                                    tProvider.setFilter('');
+                                  }
+                                }
+                              },
+                              child: Chip(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                label: Text(
+                                  // Show date range on chip when custom is active
+                                  isSelected && filter == 'Custom' && tProvider.customFrom != null
+                                      ? '${DateFormat('d MMM').format(tProvider.customFrom!)} - ${DateFormat('d MMM').format(tProvider.customTo!)}'
+                                      : filter,
+                                  style: TextStyle(
+                                    color: isSelected ? Colors.white : DColors.grey,
+                                  ),
                                 ),
-                              ),
-                              backgroundColor:
-                              isSelected ? DColors.primary : Colors.transparent,
-                              shape: StadiumBorder(
-                                side: BorderSide(
-                                  color: DColors.grey.withOpacity(0.3),
-                                  width: 1,
+                                backgroundColor: isSelected ? DColors.primary : Colors.transparent,
+                                shape: StadiumBorder(
+                                  side: BorderSide(
+                                    color: DColors.grey.withOpacity(0.3),
+                                    width: 1,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
-                  ),
                 SizedBox(height: 10,),
                 Expanded(
                   child: ListView.builder(

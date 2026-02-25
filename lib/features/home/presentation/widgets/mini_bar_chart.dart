@@ -37,7 +37,7 @@ class MiniBarChart extends StatelessWidget {
             'Last 7 Days Expenses',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(15),
             height: 200,
@@ -63,7 +63,7 @@ class MiniBarChart extends StatelessWidget {
                   touchTooltipData: BarTouchTooltipData(
                     getTooltipColor: (_) => Colors.transparent,
                     tooltipPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    tooltipMargin: 5,
+                    tooltipMargin: 0,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       return BarTooltipItem(
                         rod.toY.toInt().toString(),

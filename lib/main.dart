@@ -6,6 +6,7 @@ import 'package:money_mate/features/profile/data/repositories/profile_repository
 import 'package:money_mate/features/profile/data/services/profile_service.dart';
 import 'package:money_mate/features/profile/domain/repositories/profile_repository.dart';
 import 'package:money_mate/features/profile/presentation/view_model/profile_provider.dart';
+import 'package:money_mate/features/settings/presentation/viewmodels/app_info.dart';
 import 'package:money_mate/features/transactions/data/repositories/transaction_repository_epl.dart';
 import 'package:money_mate/features/transactions/data/services/transaction_service.dart';
 
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => ThemeProvider()),
             ChangeNotifierProvider(create: (context) => NavigationProvider()),
             ChangeNotifierProvider(create: (context) => HomeProvider()),
+            ChangeNotifierProvider(create: (context) => AppInfo()),
 
             // Services
             Provider<DocumentScannerService>(create: (_) => DocumentScannerService()),

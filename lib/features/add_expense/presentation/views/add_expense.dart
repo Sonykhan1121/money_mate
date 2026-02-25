@@ -92,7 +92,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
+            
                   // ─── Image Pickers ───────────────────────────────────────
                   Row(
                     children: [
@@ -152,7 +152,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                   SizedBox(height: 15.h),
                   const ImageGridViewer(),
                   const SizedBox(height: 10),
-
+            
                   // ─── Type Tab ────────────────────────────────────────────
                   const Text('Type'),
                   const SizedBox(height: 10),
@@ -165,175 +165,179 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                     },
                   ),
                   const SizedBox(height: 10),
-
+            
                   // ─── Form ────────────────────────────────────────────────
-                  Form(
-                    key: _fromKey,
-                    autovalidateMode: _autovalidateMode,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-
-                        // // ── Title ────────────────────────────────────────
-                        // const Text('Title'),
-                        // const SizedBox(height: 10),
-                        // TextFormField(
-                        //   controller: titleTextController,
-                        //   decoration: const InputDecoration(hintText: 'Enter title'),
-                        //   validator: (v) =>
-                        //   (v == null || v.trim().isEmpty) ? 'Please enter a title' : null,
-                        // ),
-                        // const SizedBox(height: 10),
-
-                        // ── Category ─────────────────────────────────────
-                        const Text('Category'),
-                        const SizedBox(height: 10),
-                        DropdownButtonFormField<CategoryModel>(
-                          decoration: const InputDecoration(hintText: 'Select a category'),
-                          value: _selectedValue,
-                          selectedItemBuilder: (context) => _filteredCategories(addExpenseProvider)
-                              .map((cat) => CategorySelectedItem(category: cat))
-                              .toList(),
-                          items: _filteredCategories(addExpenseProvider)
-                              .map((cat) => DropdownMenuItem(
-                            value: cat,
-                            child: CategoryDropdownItem(category: cat),
-                          ))
-                              .toList(),
-                          onChanged: (value) => setState(() => _selectedValue = value),
-                          validator: (v) => v == null ? 'Please select a category' : null,
-                        ),
-                        const SizedBox(height: 10),
-
-                        // ── Amount ───────────────────────────────────────
-                        const Text('Amount'),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: amountTextController,
-                          decoration: const InputDecoration(hintText: 'Enter amount'),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          validator: (v) =>
-                          (v == null || v.isEmpty) ? 'Please enter amount' : null,
-                        ),
-                        const SizedBox(height: 10),
-
-
-
-                        // ── Date ─────────────────────────────────────────
-                        const Text('Date'),
-                        const SizedBox(height: 10),
-                        DatePickerField(
-                          dateController: dateController,
-                          onChanged: (d) => setState(() => _selectedDate = d),
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // ── Description ──────────────────────────────────
-                        const Text('Description'),
-                        const SizedBox(height: 10),
-                        TextFormField(
-                          controller: descriptionTextController,
-                          decoration: const InputDecoration(hintText: 'Enter description (optional)'),
-                          maxLines: 3,
-                        ),
-                        const SizedBox(height: 16),
-
-                        // ─── Payment Method — Radio Buttons with Icons ────────────────────────────
-                        const Text('Payment Method'),
-                        const SizedBox(height: 8),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: _paymentMethods.asMap().entries.map((entry) {
-                              final isLast = entry.key == _paymentMethods.length - 1;
-                              final method = entry.value;
-                              return Column(
-                                children: [
-                                  RadioListTile<String>(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                                    title: Row(
-                                      children: [
-                                        Icon(_paymentMethodIcon(method), size: 18, color: DColors.primary),
-                                        const SizedBox(width: 8),
-                                        Text(method, style: const TextStyle(fontSize: 14)),
-                                      ],
-                                    ),
-                                    value: method,
-                                    groupValue: _selectedPaymentMethod,
-                                    activeColor: DColors.primary,
-                                    onChanged: (v) => setState(() => _selectedPaymentMethod = v),
-                                  ),
-                                  if (!isLast)
-                                    Divider(height: 1, indent: 12, endIndent: 12, color: Colors.grey.shade200),
-                                ],
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-
-                        // ── Tags ─────────────────────────────────────────
-                        const Text('Tags'),
-                        const SizedBox(height: 8),
-                        Row(
+                  Column(
+                    children: [
+                      Form(
+                        key: _fromKey,
+                        autovalidateMode: _autovalidateMode,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              child: TextFormField(
-                                controller: tagInputController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Type a tag and press +',
-                                  contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                                ),
-                                onFieldSubmitted: _addTag,
+            
+                            // // ── Title ────────────────────────────────────────
+                            const Text('Title'),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: titleTextController,
+                              decoration: const InputDecoration(hintText: 'Enter title'),
+                              validator: (v) =>
+                              (v == null || v.trim().isEmpty) ? 'Please enter a title' : null,
+                            ),
+                            const SizedBox(height: 10),
+            
+                            // ── Category ─────────────────────────────────────
+                            const Text('Category'),
+                            const SizedBox(height: 10),
+                            DropdownButtonFormField<CategoryModel>(
+                              decoration: const InputDecoration(hintText: 'Select a category'),
+                              value: _selectedValue,
+                              selectedItemBuilder: (context) => _filteredCategories(addExpenseProvider)
+                                  .map((cat) => CategorySelectedItem(category: cat))
+                                  .toList(),
+                              items: _filteredCategories(addExpenseProvider)
+                                  .map((cat) => DropdownMenuItem(
+                                value: cat,
+                                child: CategoryDropdownItem(category: cat),
+                              ))
+                                  .toList(),
+                              onChanged: (value) => setState(() => _selectedValue = value),
+                              validator: (v) => v == null ? 'Please select a category' : null,
+                            ),
+                            const SizedBox(height: 10),
+            
+                            // ── Amount ───────────────────────────────────────
+                            const Text('Amount'),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: amountTextController,
+                              decoration: const InputDecoration(hintText: 'Enter amount'),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                              validator: (v) =>
+                              (v == null || v.isEmpty) ? 'Please enter amount' : null,
+                            ),
+                            const SizedBox(height: 10),
+            
+            
+            
+                            // ── Date ─────────────────────────────────────────
+                            const Text('Date'),
+                            const SizedBox(height: 10),
+                            DatePickerField(
+                              dateController: dateController,
+                              onChanged: (d) => setState(() => _selectedDate = d),
+                            ),
+            
+                            const SizedBox(height: 16),
+            
+                            // ── Description ──────────────────────────────────
+                            const Text('Description'),
+                            const SizedBox(height: 10),
+                            TextFormField(
+                              controller: descriptionTextController,
+                              decoration: const InputDecoration(hintText: 'Enter description (optional)'),
+                              maxLines: 3,
+                            ),
+                            const SizedBox(height: 16),
+            
+                            // ─── Payment Method — Radio Buttons with Icons ────────────────────────────
+                            const Text('Payment Method'),
+                            const SizedBox(height: 8),
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.grey.shade300),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                children: _paymentMethods.asMap().entries.map((entry) {
+                                  final isLast = entry.key == _paymentMethods.length - 1;
+                                  final method = entry.value;
+                                  return Column(
+                                    children: [
+                                      RadioListTile<String>(
+                                        dense: true,
+                                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                                        title: Row(
+                                          children: [
+                                            Icon(_paymentMethodIcon(method), size: 18, color: DColors.primary),
+                                            const SizedBox(width: 8),
+                                            Text(method, style: const TextStyle(fontSize: 14)),
+                                          ],
+                                        ),
+                                        value: method,
+                                        groupValue: _selectedPaymentMethod,
+                                        activeColor: DColors.primary,
+                                        onChanged: (v) => setState(() => _selectedPaymentMethod = v),
+                                      ),
+                                      if (!isLast)
+                                        Divider(height: 1, indent: 12, endIndent: 12, color: Colors.grey.shade200),
+                                    ],
+                                  );
+                                }).toList(),
                               ),
                             ),
-                            const SizedBox(width: 8),
-                            // ← Add button on the right side
-                            ElevatedButton(
-                              onPressed: () => _addTag(tagInputController.text),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: DColors.primary,
-                                minimumSize: const Size(48, 48),
-                                padding: const EdgeInsets.all(12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                            const SizedBox(height: 16),
+            
+            
+                            // ── Tags ─────────────────────────────────────────
+                            const Text('Tags'),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: tagInputController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Type a tag and press +',
+                                      contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                    ),
+                                    onFieldSubmitted: _addTag,
+                                  ),
                                 ),
-                              ),
-                              child: const Icon(Icons.add, color: Colors.white, size: 22),
+                                const SizedBox(width: 8),
+                                // ← Add button on the right side
+                                ElevatedButton(
+                                  onPressed: () => _addTag(tagInputController.text),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: DColors.primary,
+                                    minimumSize: const Size(48, 48),
+                                    padding: const EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Icon(Icons.add, color: Colors.white, size: 22),
+                                ),
+                              ],
                             ),
+                            if (_tags.isNotEmpty) ...[
+                              const SizedBox(height: 10),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: _tags
+                                    .map(
+                                      (tag) => Chip(
+                                    label: Text(tag, style: const TextStyle(fontSize: 12)),
+                                    backgroundColor: DColors.primary.withOpacity(0.1),
+                                    side: BorderSide(color: DColors.primary.withOpacity(0.3)),
+                                    deleteIcon: Icon(Icons.close, size: 14, color: DColors.primary),
+                                    onDeleted: () => _removeTag(tag),
+                                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                                  ),
+                                )
+                                    .toList(),
+                              ),
+                            ],
+                            const SizedBox(height: 20),
                           ],
                         ),
-                        if (_tags.isNotEmpty) ...[
-                          const SizedBox(height: 10),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: _tags
-                                .map(
-                                  (tag) => Chip(
-                                label: Text(tag, style: const TextStyle(fontSize: 12)),
-                                backgroundColor: DColors.primary.withOpacity(0.1),
-                                side: BorderSide(color: DColors.primary.withOpacity(0.3)),
-                                deleteIcon: Icon(Icons.close, size: 14, color: DColors.primary),
-                                onDeleted: () => _removeTag(tag),
-                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                padding: const EdgeInsets.symmetric(horizontal: 4),
-                              ),
-                            )
-                                .toList(),
-                          ),
-                        ],
-                        const SizedBox(height: 20),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -383,8 +387,10 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                   final String label = _selectedIndex == 0 ? "Income" : "Expense";
                   DSnackbar.showSuccess(context, "$label added successfully");
                   await clearAll();
+                  FocusScope.of(context).unfocus();
                   context.addExpenseProvider.clearImagePaths();
                   context.transactionProvider.init();
+                  // hide keyboard
                 } else {
                   DSnackbar.showError(context, "Something went wrong");
                 }
