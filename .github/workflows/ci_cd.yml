@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - dev_sony
-    tags:
-      - 'v*'
 
 permissions:
   contents: write
@@ -13,12 +11,11 @@ permissions:
 jobs:
 
   # ─────────────────────────────────────────────
-  # JOB 1: Lint & Test (Runs on branch push only)
+  # JOB 1: Lint & Test
   # ─────────────────────────────────────────────
   test:
     name: 🧪 Lint & Test
     runs-on: ubuntu-latest
-    if: github.ref_type == 'branch'
 
     steps:
       - name: 📥 Checkout Repository
@@ -33,7 +30,7 @@ jobs:
       - name: ⚙️ Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.1'
+          flutter-version: '3.29.0'
           channel: 'stable'
           cache: true
 
@@ -46,14 +43,61 @@ jobs:
       - name: 🧪 Run Tests
         run: flutter test --verbose
 
+  # ─────────────────────────────────────────────
+  # JOB 2: Auto Tag (runs after test passes)
+  # ─────────────────────────────────────────────
+  auto-tag:
+    name: 🏷️ Auto Tag from pubspec.yaml
+    runs-on: ubuntu-latest
+    needs: test
+    outputs:
+      app_version: ${{ steps.version.outputs.APP_VERSION }}
+      tag_exists: ${{ steps.check_tag.outputs.TAG_EXISTS }}
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to check existing tags
+
+      - name: 🔎 Extract Version from pubspec.yaml
+        id: version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //g' | cut -d '+' -f 1)
+          echo "APP_VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "✅ Version found: $VERSION"
+
+      - name: 🔍 Check If Tag Already Exists
+        id: check_tag
+        run: |
+          TAG="v${{ steps.version.outputs.APP_VERSION }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "TAG_EXISTS=true" >> $GITHUB_OUTPUT
+            echo "⚠️ Tag $TAG already exists — skipping release."
+          else
+            echo "TAG_EXISTS=false" >> $GITHUB_OUTPUT
+            echo "✅ Tag $TAG does not exist — will create."
+          fi
+
+      - name: 🏷️ Create & Push Tag
+        if: steps.check_tag.outputs.TAG_EXISTS == 'false'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git tag "v${{ steps.version.outputs.APP_VERSION }}"
+          git push origin "v${{ steps.version.outputs.APP_VERSION }}"
+          echo "✅ Tag v${{ steps.version.outputs.APP_VERSION }} pushed!"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ─────────────────────────────────────────────
-  # JOB 2: Build & Release (Runs on tag push only)
+  # JOB 3: Build & Release APK
   # ─────────────────────────────────────────────
   release:
     name: 🚀 Build & Release APK
     runs-on: ubuntu-latest
-    if: github.ref_type == 'tag'
+    needs: auto-tag
+    if: needs.auto-tag.outputs.tag_exists == 'false'
 
     steps:
       - name: 📥 Checkout Repository
@@ -68,40 +112,23 @@ jobs:
       - name: ⚙️ Set Up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.41.1'
+          flutter-version: '3.29.0'
           channel: 'stable'
           cache: true
 
       - name: 📦 Install Dependencies
         run: flutter pub get
 
-      # ───────── Extract version from pubspec.yaml ─────────
-      - name: 🔎 Extract Version
-        id: version
-        run: |
-          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //g' | cut -d '+' -f 1)
-          echo "APP_VERSION=$VERSION" >> $GITHUB_OUTPUT
-
-      # ───────── Validate tag matches pubspec version ─────────
-      - name: ✅ Validate Tag Matches pubspec Version
-        run: |
-          if [ "v${{ steps.version.outputs.APP_VERSION }}" != "${{ github.ref_name }}" ]; then
-            echo "❌ Tag does not match pubspec.yaml version!"
-            echo "Tag: ${{ github.ref_name }}"
-            echo "pubspec version: v${{ steps.version.outputs.APP_VERSION }}"
-            exit 1
-          fi
-
       - name: 🏗️ Build Release APK
         run: flutter build apk --release
 
-      - name: 🚀 Create GitHub Release
+      - name: 🚀 Create GitHub Release with APK
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: "💰 Money Mate ${{ github.ref_name }}"
+          tag_name: "v${{ needs.auto-tag.outputs.app_version }}"
+          name: "💰 Money Mate v${{ needs.auto-tag.outputs.app_version }}"
           body: |
-            ## 💰 Money Mate ${{ github.ref_name }}
+            ## 💰 Money Mate v${{ needs.auto-tag.outputs.app_version }}
 
             **Branch:** dev_sony  
             **Commit:** ${{ github.sha }}  
