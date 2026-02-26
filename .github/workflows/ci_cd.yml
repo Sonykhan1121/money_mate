@@ -1,0 +1,121 @@
+name: Flutter CI/CD - Money Mate
+
+on:
+  push:
+    branches:
+      - dev_sony
+  pull_request:
+    branches:
+      - dev_sony
+
+jobs:
+  # ─────────────────────────────────────────────
+  # JOB 1: Lint & Test
+  # ─────────────────────────────────────────────
+  test:
+    name: 🧪 Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.1'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🔍 Analyze Code (Lint)
+        run: flutter analyze
+
+      - name: 🧪 Run Tests
+        run: flutter test
+
+  # ─────────────────────────────────────────────
+  # JOB 2: Build Debug APK
+  # ─────────────────────────────────────────────
+  build:
+    name: 🏗️ Build Debug APK
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ☕ Set Up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: ⚙️ Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.1'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🏗️ Build Debug APK
+        run: flutter build apk --debug
+
+      - name: 📤 Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: money-mate-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
+
+  # ─────────────────────────────────────────────
+  # JOB 3: Create GitHub Release
+  # ─────────────────────────────────────────────
+  release:
+    name: 🚀 GitHub Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push'
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 📥 Download APK Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: money-mate-debug-apk
+          path: ./release
+
+      - name: 🏷️ Generate Tag
+        id: tag
+        run: echo "TAG=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
+
+      - name: 🚀 Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.TAG }}
+          name: "💰 Money Mate ${{ steps.tag.outputs.TAG }}"
+          body: |
+            ## 💰 Money Mate - New Build
+
+            **Branch:** `dev_sony`
+            **By:** @${{ github.actor }}
+            **Commit:** `${{ github.sha }}`
+
+            ### 📝 Commit Message
+            ${{ github.event.head_commit.message }}
+
+            ---
+            📲 Download the APK below and install on your Android device.
+          files: ./release/app-debug.apk
+          draft: false
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
