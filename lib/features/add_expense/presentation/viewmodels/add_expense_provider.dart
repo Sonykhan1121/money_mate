@@ -153,7 +153,7 @@ class AddExpenseProvider extends ChangeNotifier {
     }
   }
 
-  Future<int?> addTransaction(TransactionModel tModel) async {
+  Future<void> addTransaction(TransactionModel tModel) async {
     return await _transactionRepository.addTransaction(tModel);
   }
 

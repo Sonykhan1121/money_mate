@@ -1,4 +1,4 @@
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:money_mate/features/transactions/data/models/transaction_type.dart';
 
 part 'transaction_model.g.dart';
@@ -6,12 +6,13 @@ part 'transaction_model.g.dart';
 @collection
 class TransactionModel {
 
-  Id id ;
+  @Id()
+  int id ;
   final String title;
   final double amount;
 
   @Index()
-  @enumerated
+  @enumValue
   final TransactionType type;
 
   @Index()
@@ -31,7 +32,7 @@ class TransactionModel {
   final String? notes;
 
   TransactionModel({
-  this.id= Isar.autoIncrement,
+  required this.id,
     required this.title,
     required this.amount,
     required this.type,
@@ -51,7 +52,7 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      id: json['id'] as int,
+      id: json['id'] as int ,
       title: json["title"] as String,
       amount: (json["amount"] as num).toDouble(),
       type: TransactionType.values.firstWhere((e) => e.toString() == "TransactionType.${json["type"]}"),

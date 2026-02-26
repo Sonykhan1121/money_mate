@@ -3,12 +3,10 @@ import 'package:money_mate/features/add_expense/domain/repositories/document_sca
 import 'package:money_mate/features/add_expense/presentation/viewmodels/add_expense_provider.dart';
 import 'package:money_mate/features/home/presentation/viewmodels/home_provider.dart';
 import 'package:money_mate/features/profile/data/repositories/profile_repository_epl.dart';
-import 'package:money_mate/features/profile/data/services/profile_service.dart';
 import 'package:money_mate/features/profile/domain/repositories/profile_repository.dart';
 import 'package:money_mate/features/profile/presentation/view_model/profile_provider.dart';
 import 'package:money_mate/features/settings/presentation/viewmodels/app_info.dart';
 import 'package:money_mate/features/transactions/data/repositories/transaction_repository_epl.dart';
-import 'package:money_mate/features/transactions/data/services/transaction_service.dart';
 import 'core/theme/theme.dart';
 import 'core/local/local_data.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +18,8 @@ import 'package:money_mate/features/transactions/presentation/viewmodels/transac
 import 'features/add_expense/data/repositories/document_scanner_repository_impl.dart';
 import 'features/add_expense/data/services/document_scanner_service.dart';
 import 'features/navigation/presentation/viewmodels/navigation_provider.dart';
+import 'features/profile/data/services/profile_service.dart';
+import 'features/transactions/data/services/transaction_service.dart';
 import 'features/transactions/domain/repositories/transaction_repository.dart';
 
 Future<void> main() async {

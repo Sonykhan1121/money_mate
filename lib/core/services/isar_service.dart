@@ -1,4 +1,5 @@
-import 'package:isar/isar.dart';
+
+import 'package:isar_plus/isar_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../features/profile/data/models/profile_model.dart';
 import '../../features/transactions/data/models/transaction_model.dart';
@@ -13,8 +14,8 @@ class IsarService {
   Future<Isar> get db async {
     if (_db != null) return _db!;
     final dir = await getApplicationDocumentsDirectory();
-    _db = await Isar.open(
-      [TransactionModelSchema, ProfileModelSchema],
+    _db = Isar.open(
+      schemas: [TransactionModelSchema, ProfileModelSchema],
       directory: dir.path,
     );
     return _db!;

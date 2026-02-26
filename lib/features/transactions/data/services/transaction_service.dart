@@ -1,5 +1,5 @@
-import 'package:isar/isar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:isar_plus/isar_plus.dart';
 import '../models/transaction_type.dart';
 import '../models/transaction_model.dart';
 import '../../../../core/services/isar_service.dart';
@@ -15,17 +15,16 @@ class TransactionService {
 
   // ─── CRUD Operations ────────────────────────
 
-  /// Adds a transaction and returns the inserted id
-  Future<int?> addTransaction(TransactionModel txn) async {
+  /// Adds a transaction
+  Future<void> addTransaction(TransactionModel txn) async {
     debugPrint("addTransaction called : $txn");
     try {
       final isar = await db;
-      return await isar.writeTxn(() async {
-        return await isar.transactionModels.put(txn);
+      await isar.writeAsync((isar)  {
+         isar.transactionModels.put(txn); // put acts as upsert
       });
     } catch (e) {
       debugPrint('Error adding transaction: $e');
-      return null; // null indicates failure
     }
   }
 
@@ -40,27 +39,27 @@ class TransactionService {
     }
   }
 
-  /// Updates a transaction, returns true if successful
+  /// Updates a transaction
   Future<bool> updateTransaction(TransactionModel txn) async {
     debugPrint("updateTransaction called : $txn");
     try {
       final isar = await db;
-      return await isar.writeTxn(() async {
-        final id = await isar.transactionModels.put(txn);
-        return id != 0; // put returns 0 if failed
+      await isar.writeAsync((isar)  {
+         isar.transactionModels.put(txn);
       });
+      return true;
     } catch (e) {
       debugPrint('Error updating transaction: $e');
       return false;
     }
   }
 
-  /// Deletes a transaction by id, returns true if deleted
+  /// Deletes a transaction by id
   Future<bool> deleteTransaction(int id) async {
     try {
       final isar = await db;
-      return await isar.writeTxn(() async {
-        return await isar.transactionModels.delete(id);
+      return await isar.writeAsync((isar)  {
+        return  isar.transactionModels.delete(id);
       });
     } catch (e) {
       debugPrint('Error deleting transaction: $e');
@@ -72,7 +71,9 @@ class TransactionService {
   Future<List<TransactionModel>> getTransactionsByCategory(String categoryId) async {
     try {
       final isar = await db;
-      return await isar.transactionModels.filter()
+      // Use where() + generated query method (categoryId must be @Index)
+      return  isar.transactionModels
+          .where()
           .categoryIdEqualTo(categoryId)
           .findAll();
     } catch (e) {
@@ -85,7 +86,9 @@ class TransactionService {
   Future<List<TransactionModel>> getTransactionsByType(TransactionType type) async {
     try {
       final isar = await db;
-      return await isar.transactionModels.filter()
+      // Use where() + generated query method (type must be @Index + @enumValue)
+      return  isar.transactionModels
+          .where()
           .typeEqualTo(type)
           .findAll();
     } catch (e) {

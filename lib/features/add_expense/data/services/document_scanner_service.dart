@@ -10,11 +10,19 @@ class DocumentScannerService {
   Future<List<String>?> scanDocumentsAsImages({int page = 4}) async {
     try {
       final dynamic result = await _docScanner.getScannedDocumentAsImages(page: page);
+      debugPrint("result scanDocument : $result");
+      if (result is ImageScanResult) {
+        final imagesList = result.images; // already List<String>
+        debugPrint('imageList : $imagesList');
 
-      if (result is Map && result.containsKey('images')) {
+        // Clean every path in the list
+        return imagesList.map((path) => _cleanPath(path)).toList();
+      }
+      else if (result is Map && result.containsKey('images')) {
         final List<dynamic> imagesList = result['images'];
 
         // Clean every path in the list
+        debugPrint('imageList : $imagesList');
         return imagesList.map((path) => _cleanPath(path.toString())).toList();
       } else if (result is List && result.isNotEmpty) {
         return List<String>.from(result.map((r) => r.toString()));

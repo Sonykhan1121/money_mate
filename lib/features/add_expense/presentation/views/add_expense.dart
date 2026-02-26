@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/category.dart';
 import '../widgets/date_picker_field.dart';
@@ -373,7 +374,9 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                 final TransactionType type =
                 (_selectedIndex == 0) ? TransactionType.income : TransactionType.expense;
 
+                final int length = context.transactionProvider.allTransactions.length;
                 final TransactionModel tModel = TransactionModel(
+                  id: length,
                   title: titleTextController.text.trim(),
                   amount: amount,
                   type: type,
@@ -394,9 +397,9 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
 
                 debugPrint("tModel : $tModel");
 
-                final int? success = await addExpenseProvider.addTransaction(tModel);
 
-                if (success != null) {
+                try{
+                  await addExpenseProvider.addTransaction(tModel);
                   final String label = _selectedIndex == 0 ? "Income" : "Expense";
                   if(!context.mounted)return;
                   DSnackbar.showSuccess(context, "$label added successfully");
@@ -406,7 +409,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                   context.addExpenseProvider.clearImagePaths();
                   context.transactionProvider.init();
                   // hide keyboard
-                } else {
+                } catch(e) {
                   if(!context.mounted)return;
                   DSnackbar.showError(context, "Something went wrong");
                 }

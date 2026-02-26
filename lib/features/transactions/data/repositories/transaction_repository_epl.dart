@@ -10,7 +10,7 @@ class TransactionRepositoryEpl extends TransactionRepository {
   TransactionRepositoryEpl({required this.transactionService});
 
   @override
-  Future<int?> addTransaction(TransactionModel tModel) async {
+  Future<void> addTransaction(TransactionModel tModel) async {
     return await transactionService.addTransaction(tModel);
   }
 

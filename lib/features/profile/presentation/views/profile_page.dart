@@ -1,9 +1,9 @@
-import 'package:isar/isar.dart';
 import 'package:flutter/material.dart';
+import '../../data/models/profile_model.dart';
+import '../../data/models/profile_model.dart' as Isar;
 import '../widgets/avatar_result.dart';
 import 'package:provider/provider.dart';
 import '../view_model/profile_provider.dart';
-import '../../data/models/profile_model.dart';
 import '../widgets/profile_edit_section.dart';
 import '../widgets/profile_view_section.dart';
 
@@ -69,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
     debugPrint("save (avatar)1 : $_avatar");
 
     final updated = ProfileModel(
-      id: existing?.id ?? Isar.autoIncrement,
+      id: existing?.id ?? 1,
       name:      _nameCtrl.text.trim().isEmpty  ? null : _nameCtrl.text.trim(),
       age:       int.tryParse(_ageCtrl.text.trim()),
       email:     _emailCtrl.text.trim().isEmpty ? null : _emailCtrl.text.trim(),

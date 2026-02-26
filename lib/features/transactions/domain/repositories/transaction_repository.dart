@@ -2,7 +2,7 @@ import '../../data/models/transaction_type.dart';
 import '../../data/models/transaction_model.dart';
 
 abstract class TransactionRepository {
-  Future<int?> addTransaction(TransactionModel tModel);
+  Future<void> addTransaction(TransactionModel tModel);
 
   Future<List<TransactionModel>> getAllTransactions();
 

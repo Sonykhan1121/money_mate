@@ -1,15 +1,17 @@
-import 'package:isar/isar.dart';
+import 'package:isar_plus/isar_plus.dart';
 import 'package:money_mate/features/profile/presentation/widgets/avatar_result.dart';
 
 part 'profile_model.g.dart';
 
 @collection
 class ProfileModel {
-  Id id ;
+
+  @Id()
+  int id  ;
   final String? imagePath;
 
   @Index()
-  @enumerated
+  @enumValue
   final AvatarType avatarType;
   final String? name;
   final int? age;
@@ -18,7 +20,7 @@ class ProfileModel {
   final String? address;
   final String? bio;
 
-  ProfileModel({this.id=Isar.autoIncrement,this.avatarType=AvatarType.file, this.imagePath, this.name, this.age, this.email, this.phone, this.address, this.bio});
+  ProfileModel({required this.id ,this.avatarType=AvatarType.file, this.imagePath, this.name, this.age, this.email, this.phone, this.address, this.bio});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
