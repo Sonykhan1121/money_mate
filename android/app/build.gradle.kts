@@ -36,20 +36,24 @@ android {
         jvmTarget = "11"
     }
 
-//    signingConfigs {
-//        create("release") {
-//            keyAlias = keystoreProperties["keyAlias"] as String
-//            keyPassword = keystoreProperties["keyPassword"] as String
-//            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
-//            storePassword = keystoreProperties["storePassword"] as String
-//        }
-//    }
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = keystoreProperties["storeFile"]?.let { file(it) }
+            storePassword = keystoreProperties["storePassword"] as String
+        }
+    }
 
     buildTypes {
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             isShrinkResources = false
+        }
+        getByName("debug") {
+            // Optional: can also assign debug signing config if needed
+            // signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
