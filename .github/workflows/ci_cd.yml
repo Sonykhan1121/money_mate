@@ -4,14 +4,45 @@ on:
   push:
     branches:
       - dev_sony
+  pull_request:
+    branches:
+      - dev_sony
 
 jobs:
   # ─────────────────────────────────────────────
-  # JOB 1: Build Debug APK
+  # JOB 1: Lint & Test
+  # ─────────────────────────────────────────────
+  test:
+    name: 🧪 Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.1'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      - name: 🔍 Analyze Code (errors only — warnings won't fail the build)
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: 🧪 Run Tests
+        run: flutter test
+
+  # ─────────────────────────────────────────────
+  # JOB 2: Build Debug APK
   # ─────────────────────────────────────────────
   build:
     name: 🏗️ Build Debug APK
     runs-on: ubuntu-latest
+    needs: test
 
     steps:
       - name: 📥 Checkout Repository
@@ -44,12 +75,13 @@ jobs:
           retention-days: 7
 
   # ─────────────────────────────────────────────
-  # JOB 2: Create GitHub Release
+  # JOB 3: Create GitHub Release
   # ─────────────────────────────────────────────
   release:
     name: 🚀 GitHub Release
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name == 'push'
 
     steps:
       - name: 📥 Checkout Repository
