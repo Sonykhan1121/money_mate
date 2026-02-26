@@ -110,7 +110,7 @@ class _AvatarContent extends StatelessWidget {
     return Image.file(
       selected!.toFile()!,
       fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => Icon(
+      errorBuilder: (_, _, _) => Icon(
         Icons.person_rounded,
         size: 38.sp,
         color: DColors.primary.withValues(alpha: 0.55),

@@ -297,7 +297,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                         File(t.imageUrls![i]),
                         fit: BoxFit.cover,
                         errorBuilder:
-                            (_, __, ___) => Container(
+                            (_, _, _) => Container(
                               color: DColors.primary.withValues(alpha: 0.1),
                               child: const Center(child: Icon(Icons.broken_image_outlined, size: 48)),
                             ),
@@ -1078,7 +1078,7 @@ class _FullImageViewerState extends State<_FullImageViewer> {
                   File(widget.urls[i]),
                   fit: BoxFit.contain,
                   errorBuilder:
-                      (_, __, ___) => const Icon(Icons.broken_image_outlined, color: Colors.white54, size: 64),
+                      (_, _, _) => const Icon(Icons.broken_image_outlined, color: Colors.white54, size: 64),
                 ),
               ),
             ),

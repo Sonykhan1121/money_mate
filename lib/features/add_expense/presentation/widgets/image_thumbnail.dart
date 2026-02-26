@@ -57,7 +57,7 @@ class _ThumbnailCard extends StatelessWidget {
           child: Image.file(
             File(imagePath),
             fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Icon(
+            errorBuilder: (_, _, _) => Icon(
               Icons.image_not_supported_outlined,
               color: Colors.grey.shade400,
               size: 32,

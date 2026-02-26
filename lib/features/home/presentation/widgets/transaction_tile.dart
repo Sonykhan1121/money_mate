@@ -185,7 +185,7 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: widget.transaction.tags!.length,
-                                separatorBuilder: (_, __) => const SizedBox(width: 4),
+                                separatorBuilder: (_, _) => const SizedBox(width: 4),
                                 itemBuilder:
                                     (_, i) => Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),

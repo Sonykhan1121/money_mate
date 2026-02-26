@@ -292,7 +292,7 @@ class _CharacterTileState extends State<_CharacterTile> {
             child: Image.asset(
               widget.assetPath,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 color: DColors.primary.withValues(alpha: 0.08),
                 child: Icon(Icons.person_rounded,
                     color: DColors.primary.withValues(alpha: 0.4)),

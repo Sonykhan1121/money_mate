@@ -61,17 +61,17 @@ class MyApp extends StatelessWidget {
             Provider<ProfileService>(create: (_) => ProfileService()),
             //document scanner
             ProxyProvider<DocumentScannerService, DocumentScannerRepository>(
-              update: (_, documentService, __) => DocumentScannerRepositoryImpl(scannerService: documentService),
+              update: (_, documentService, _) => DocumentScannerRepositoryImpl(scannerService: documentService),
             ),
 
 
             ProxyProvider<TransactionService, TransactionRepository>(
-              update: (_, transactionService, __) => TransactionRepositoryEpl(transactionService: transactionService),
+              update: (_, transactionService, _) => TransactionRepositoryEpl(transactionService: transactionService),
             ),
 
 
             ProxyProvider<ProfileService, ProfileRepository>(
-              update: (_, profileService, __) => ProfileRepositoryEpl(profileService: profileService),
+              update: (_, profileService, _) => ProfileRepositoryEpl(profileService: profileService),
             ),
 
 
@@ -80,12 +80,12 @@ class MyApp extends StatelessWidget {
                 repository: context.read<DocumentScannerRepository>(),
                 transactionRepository: context.read<TransactionRepository>(),
               ),
-              update: (_, __, ___, previous) => previous!, // ✅
+              update: (_, _, _, previous) => previous!, // ✅
             ),
 
             ChangeNotifierProxyProvider<ProfileRepository, ProfileProvider>(
               create: (context) => ProfileProvider(profileRepository: context.read<ProfileRepository>()),
-              update: (_, __, previous) => previous!, // ✅
+              update: (_, _, previous) => previous!, // ✅
             ),
 
             // ✅ create once, never recreate
