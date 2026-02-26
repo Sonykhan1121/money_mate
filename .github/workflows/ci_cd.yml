@@ -4,48 +4,21 @@ on:
   push:
     branches:
       - dev_sony
-  pull_request:
-    branches:
-      - dev_sony
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
 
 jobs:
+
   # ─────────────────────────────────────────────
-  # JOB 1: Lint & Test
+  # JOB 1: Lint & Test (Runs on branch push only)
   # ─────────────────────────────────────────────
   test:
     name: 🧪 Lint & Test
     runs-on: ubuntu-latest
-
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: ⚙️ Set Up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.41.1'
-          channel: 'stable'
-          cache: true
-
-      - name: 📦 Install Dependencies
-        run: flutter pub get
-
-      - name: 🔍 Analyze Code (errors only — warnings won't fail the build)
-        run: flutter analyze --no-fatal-warnings --no-fatal-infos
-
-      - name: 🧪 Run Tests
-        run: flutter test --verbose
-
-  # ─────────────────────────────────────────────
-  # JOB 2: Build Debug APK
-  # ─────────────────────────────────────────────
-  build:
-    name: 🏗️ Build Debug APK
-    runs-on: ubuntu-latest
-    needs: test
+    if: github.ref_type == 'branch'
 
     steps:
       - name: 📥 Checkout Repository
@@ -67,60 +40,77 @@ jobs:
       - name: 📦 Install Dependencies
         run: flutter pub get
 
-      - name: 🏗️ Build Debug APK
-        run: flutter build apk --debug
+      - name: 🔍 Analyze Code
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
-      - name: 📤 Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: money-mate-debug-apk
-          path: build/app/outputs/flutter-apk/app-debug.apk
-          retention-days: 7
+      - name: 🧪 Run Tests
+        run: flutter test --verbose
+
 
   # ─────────────────────────────────────────────
-  # JOB 3: Create GitHub Release
+  # JOB 2: Build & Release (Runs on tag push only)
   # ─────────────────────────────────────────────
   release:
-    name: 🚀 GitHub Release
+    name: 🚀 Build & Release APK
     runs-on: ubuntu-latest
-    needs: build
-    if: github.event_name == 'push'
-    permissions:
-      contents: write
+    if: github.ref_type == 'tag'
 
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
 
-      - name: 📥 Download APK Artifact
-        uses: actions/download-artifact@v4
+      - name: ☕ Set Up Java
+        uses: actions/setup-java@v4
         with:
-          name: money-mate-debug-apk
-          path: ./release
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: 🏷️ Generate Tag
-        id: tag
-        run: echo "TAG=v$(date +'%Y.%m.%d-%H%M')" >> $GITHUB_OUTPUT
+      - name: ⚙️ Set Up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.1'
+          channel: 'stable'
+          cache: true
+
+      - name: 📦 Install Dependencies
+        run: flutter pub get
+
+      # ───────── Extract version from pubspec.yaml ─────────
+      - name: 🔎 Extract Version
+        id: version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //g' | cut -d '+' -f 1)
+          echo "APP_VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      # ───────── Validate tag matches pubspec version ─────────
+      - name: ✅ Validate Tag Matches pubspec Version
+        run: |
+          if [ "v${{ steps.version.outputs.APP_VERSION }}" != "${{ github.ref_name }}" ]; then
+            echo "❌ Tag does not match pubspec.yaml version!"
+            echo "Tag: ${{ github.ref_name }}"
+            echo "pubspec version: v${{ steps.version.outputs.APP_VERSION }}"
+            exit 1
+          fi
+
+      - name: 🏗️ Build Release APK
+        run: flutter build apk --release
 
       - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.tag.outputs.TAG }}
-          name: "💰 Money Mate ${{ steps.tag.outputs.TAG }}"
+          tag_name: ${{ github.ref_name }}
+          name: "💰 Money Mate ${{ github.ref_name }}"
           body: |
-            ## 💰 Money Mate - New Build
+            ## 💰 Money Mate ${{ github.ref_name }}
 
-            **Branch:** `dev_sony`
-            **By:** @${{ github.actor }}
-            **Commit:** `${{ github.sha }}`
-
-            ### 📝 Commit Message
-            ${{ github.event.head_commit.message }}
+            **Branch:** dev_sony  
+            **Commit:** ${{ github.sha }}  
+            **Triggered by:** @${{ github.actor }}
 
             ---
             📲 Download the APK below and install on your Android device.
-          files: ./release/app-debug.apk
+          files: build/app/outputs/flutter-apk/app-release.apk
           draft: false
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
