@@ -34,7 +34,7 @@ class MonthSelector extends StatelessWidget {
             },
             icon: const Icon(Icons.chevron_left_rounded),
             style: IconButton.styleFrom(
-              backgroundColor: DColors.primary.withOpacity(0.08),
+              backgroundColor: DColors.primary.withValues(alpha: 0.08),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
             ),
@@ -59,7 +59,7 @@ class MonthSelector extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
-                color: DColors.primary.withOpacity(0.08),
+                color: DColors.primary.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
@@ -97,7 +97,7 @@ class MonthSelector extends StatelessWidget {
             style: IconButton.styleFrom(
               backgroundColor: isCurrentMonth
                   ? Colors.grey.shade100
-                  : DColors.primary.withOpacity(0.08),
+                  : DColors.primary.withValues(alpha: 0.08),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
             ),

@@ -18,7 +18,7 @@ class WelcomeSlogan extends StatelessWidget {
             Container(
               width: 40,
               height: 1,
-              color:  DColors.primary.withOpacity(0.5),
+              color:  DColors.primary.withValues(alpha: 0.5),
             ),
             const SizedBox(width: 12),
             const Text(
@@ -35,7 +35,7 @@ class WelcomeSlogan extends StatelessWidget {
             Container(
               width: 40,
               height: 1,
-              color: DColors.primary.withOpacity(0.5),
+              color: DColors.primary.withValues(alpha: 0.5),
             ),
             const SizedBox(width: 8),
             _DividerDot(),

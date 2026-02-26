@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../core/utils/constants/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WelcomeNameField extends StatefulWidget {
   final TextEditingController controller;
@@ -52,14 +51,14 @@ class _WelcomeNameFieldState extends State<WelcomeNameField> {
             boxShadow: _isFocused
                 ? [
               BoxShadow(
-                color: DColors.primary.withOpacity(0.35),
+                color: DColors.primary.withValues(alpha: 0.35),
                 blurRadius: 16,
                 offset: const Offset(0, 4),
               ),
             ]
                 : [
               BoxShadow(
-                color: Colors.black.withOpacity(0.07),
+                color: Colors.black.withValues(alpha: 0.07),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -88,14 +87,14 @@ class _WelcomeNameFieldState extends State<WelcomeNameField> {
               enabledBorder: InputBorder.none,
               hintText: 'e.g. Sony, Dolon...',
               hintStyle: TextStyle(
-                color: const Color(0xFF2D2417).withOpacity(0.3),
+                color: const Color(0xFF2D2417).withValues(alpha: 0.3),
                 fontWeight: FontWeight.w400,
               ),
               prefixIcon: Icon(
                 Icons.person_outline_rounded,
                 color: _isFocused
                     ? DColors.primary
-                    : const Color(0xFF2D2417).withOpacity(0.3),
+                    : const Color(0xFF2D2417).withValues(alpha: 0.3),
               ),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:money_mate/core/theme/textSelectionTheme.dart';
+import 'package:money_mate/core/theme/text_selection_theme.dart';
 import '../utils/constants/colors.dart';
-import 'inputDecorationTheme.dart';
+import 'input_decoration_theme.dart';
 
 class DAppTheme {
   DAppTheme._();

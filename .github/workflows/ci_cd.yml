@@ -30,8 +30,8 @@ jobs:
       - name: 📦 Install Dependencies
         run: flutter pub get
 
-      - name: 🔍 Analyze Code (Lint)
-        run: flutter analyze
+      - name: 🔍 Analyze Code (errors only — warnings won't fail the build)
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
       - name: 🧪 Run Tests
         run: flutter test

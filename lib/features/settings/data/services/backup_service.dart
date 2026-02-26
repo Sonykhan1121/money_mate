@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import '../../../transactions/data/models/transactionModel.dart';
+import '../../../transactions/data/models/transaction_model.dart';
 import '../../../transactions/domain/repositories/transaction_repository.dart';
 
 class BackupService {
@@ -64,9 +64,12 @@ class BackupService {
       // ── 2. Share ─────────────────────────────────────────────────────────
       final tempFile = File('${(await getTemporaryDirectory()).path}/$fileName');
       await tempFile.writeAsString(content, flush: true);
-      await Share.shareXFiles(
-        [XFile(tempFile.path)],
-        text: 'MoneyMate Backup — ${transactions.length} transactions',
+
+      await SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(tempFile.path)],
+          text: 'MoneyMate Backup — ${transactions.length} transactions',
+        ),
       );
 
       return BackupResult.success(transactions.length, savedPath: savedPath);
@@ -143,7 +146,7 @@ class BackupService {
 
         // ── FIX 4: Use upsert not update (handles both new + existing) ─────
         final transaction = TransactionModel.fromJson(json);
-        print('saving tn : $transaction');
+        debugPrint('saving tn : $transaction');
         await repository.updateTransaction(transaction);
         imported++;
       }

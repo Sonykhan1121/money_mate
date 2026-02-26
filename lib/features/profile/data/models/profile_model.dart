@@ -48,6 +48,6 @@ class ProfileModel {
   }
   @override
   String toString() {
-    return "${id} ${name} ${age} ${email} ${imagePath} ${avatarType} ${phone} ${address} ${bio}";
+    return "$id $name $age $email $imagePath $avatarType $phone $address $bio";
   }
 }

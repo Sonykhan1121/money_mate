@@ -5,14 +5,14 @@ import '../utils/constants/colors.dart';
 TextSelectionThemeData textSelectionTheme() {
   return TextSelectionThemeData(
     cursorColor: DColors.primary,                  // cursor color
-    selectionColor: DColors.primary.withOpacity(0.3), // background when text is selected
+    selectionColor: DColors.primary.withValues(alpha: 0.3), // background when text is selected
     selectionHandleColor: DColors.primary,        // draggable handle color
   );
 }
 TextSelectionThemeData textSelectionThemeDark() {
   return TextSelectionThemeData(
     cursorColor: DColors.primary,
-    selectionColor: DColors.primary.withOpacity(0.4),
+    selectionColor: DColors.primary.withValues(alpha: 0.4),
     selectionHandleColor: DColors.primary,
   );
 }

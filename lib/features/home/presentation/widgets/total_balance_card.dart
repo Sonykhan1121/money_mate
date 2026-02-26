@@ -22,7 +22,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -34,7 +34,7 @@ class _TotalBalanceCardState extends State<TotalBalanceCard> {
 
           Text(
             'Total Balance',
-            style: TextStyle(color: DColors.grey.withOpacity(0.7), fontSize: 12, fontWeight: FontWeight.w400),
+            style: TextStyle(color: DColors.grey.withValues(alpha: 0.7), fontSize: 12, fontWeight: FontWeight.w400),
           ),
           const SizedBox(height: 8),
           Row(

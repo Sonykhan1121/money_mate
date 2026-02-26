@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../models/result.dart';
 import '../../../../core/errors/scan_failure.dart';
 import '../services/document_scanner_service.dart';
@@ -17,7 +19,7 @@ class DocumentScannerRepositoryImpl implements DocumentScannerRepository {
       // 1. Get the list of cleaned paths from the service
       List<String>? scannedPaths = await _scannerService.scanDocumentsAsImages(page: page);
 
-      print('ScannedPaths scanDocumentAsImages: $scannedPaths');
+      debugPrint('ScannedPaths scanDocumentAsImages: $scannedPaths');
 
       // 2. Handle null (user cancelled) or empty results
       if (scannedPaths == null || scannedPaths.isEmpty) {

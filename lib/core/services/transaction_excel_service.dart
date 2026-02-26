@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 import 'package:excel/excel.dart';
 import 'package:printing/printing.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../features/transactions/data/models/transactionModel.dart';
-import '../../features/transactions/data/models/transactionType.dart';
+import '../../features/transactions/data/models/transaction_model.dart';
+import '../../features/transactions/data/models/transaction_type.dart';
 
 class TransactionExcelService {
   // ─── Colors (as hex ints for cell fills) ──────────────────────────────────

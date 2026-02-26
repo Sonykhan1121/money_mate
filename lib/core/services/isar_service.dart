@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../features/profile/data/models/profile_model.dart';
-import '../../features/transactions/data/models/transactionModel.dart';
+import '../../features/transactions/data/models/transaction_model.dart';
 
 class IsarService {
   static final IsarService _instance = IsarService._internal();

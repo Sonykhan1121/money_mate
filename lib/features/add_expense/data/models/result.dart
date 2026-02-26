@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 sealed class Result<S,F> {}
 
 class Success<S,F> extends Result<S,F>
@@ -22,7 +24,7 @@ class Document{
   String s = "hello";
   void fun()
   {
-    print(s.capitalize());
+    debugPrint(s.capitalize());
 
   }
 }

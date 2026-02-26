@@ -1,4 +1,4 @@
-import '../../../transactions/data/models/transactionType.dart';
+import '../../../transactions/data/models/transaction_type.dart';
 
 class CategoryModel {
   final String id;

@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
-import '../../../transactions/data/models/transactionType.dart';
-import '../../../transactions/data/models/transactionModel.dart';
+import '../../../transactions/data/models/transaction_type.dart';
+import '../../../transactions/data/models/transaction_model.dart';
 
 class TransactionPdfService {
   // ─── Colors ───────────────────────────────────────────────────────────────
@@ -41,8 +41,8 @@ class TransactionPdfService {
       categoryTotals[t.categoryId] =
           (categoryTotals[t.categoryId] ?? 0) + t.amount;
     }
-    final sortedCategories = categoryTotals.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+    // final sortedCategories = categoryTotals.entries.toList()
+    //   ..sort((a, b) => b.value.compareTo(a.value));
 
     // ── Fonts ─────────────────────────────────────────────────────────────
     final font      = pw.Font.helvetica();

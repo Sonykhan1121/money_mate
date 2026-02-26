@@ -1,6 +1,6 @@
 import '../../domain/repositories/transaction_repository.dart';
-import 'package:money_mate/features/transactions/data/models/transactionType.dart';
-import 'package:money_mate/features/transactions/data/models/transactionModel.dart';
+import 'package:money_mate/features/transactions/data/models/transaction_type.dart';
+import 'package:money_mate/features/transactions/data/models/transaction_model.dart';
 import 'package:money_mate/features/transactions/data/services/transaction_service.dart';
 
 

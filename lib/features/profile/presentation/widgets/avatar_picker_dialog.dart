@@ -17,7 +17,7 @@ class AvatarPickerDialog extends StatefulWidget {
 class _AvatarPickerDialogState extends State<AvatarPickerDialog>
     with SingleTickerProviderStateMixin {
   late TabController _tabCtrl;
-  String? _hoveredPath;
+
 
   @override
   void initState() {
@@ -84,7 +84,7 @@ class _DialogHeader extends StatelessWidget {
 class _CustomPhotoRow extends StatelessWidget {
   final void Function(AvatarResult) onSelect;
 
-   _CustomPhotoRow({required this.onSelect});
+   const _CustomPhotoRow({required this.onSelect});
 
   Future<void> _pick(BuildContext context, ImageSource source) async {
     final picker = ImagePicker();
@@ -137,10 +137,10 @@ class _PhotoButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10.h),
         decoration: BoxDecoration(
-          color: DColors.primary.withOpacity(0.07),
+          color: DColors.primary.withValues(alpha: 0.07),
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: DColors.primary.withOpacity(0.18),
+            color: DColors.primary.withValues(alpha: 0.18),
           ),
         ),
         child: Row(
@@ -175,7 +175,7 @@ class _GroupTabs extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
+        color: DColors.primary.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: TabBar(
@@ -189,7 +189,7 @@ class _GroupTabs extends StatelessWidget {
         ),
         indicatorSize: TabBarIndicatorSize.tab,
         labelColor: Colors.white,
-        unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.55),
+        unselectedLabelColor: DColors.secondary.withValues(alpha: 0.55),
         labelStyle: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
         tabs: AvatarAssets.groups.map((g) {
           return Tab(text: '${g.emoji} ${g.label}');
@@ -285,7 +285,7 @@ class _CharacterTileState extends State<_CharacterTile> {
               width: 2.5,
             ),
             boxShadow: _pressed
-                ? [BoxShadow(color: DColors.primary.withOpacity(0.30), blurRadius: 8)]
+                ? [BoxShadow(color: DColors.primary.withValues(alpha: 0.30), blurRadius: 8)]
                 : [],
           ),
           child: ClipOval(
@@ -293,9 +293,9 @@ class _CharacterTileState extends State<_CharacterTile> {
               widget.assetPath,
               fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => Container(
-                color: DColors.primary.withOpacity(0.08),
+                color: DColors.primary.withValues(alpha: 0.08),
                 child: Icon(Icons.person_rounded,
-                    color: DColors.primary.withOpacity(0.4)),
+                    color: DColors.primary.withValues(alpha: 0.4)),
               ),
             ),
           ),

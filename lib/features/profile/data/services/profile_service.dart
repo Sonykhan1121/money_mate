@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../../core/services/isar_service.dart';
 import '../models/profile_model.dart';
 

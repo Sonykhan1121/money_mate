@@ -99,8 +99,11 @@ class HelpSupportPage extends StatelessWidget {
               icon: Icons.share_outlined,
               title: 'Share MoneyMate',
               subtitle: 'Tell your friends about us',
-              onTap: () => Share.share(
-                'Track your money with MoneyMate! Download it here: https://play.google.com/store/apps/details?id=${appInfo.packageName}',
+              onTap: () =>SharePlus.instance.share(
+                ShareParams(
+                  text: 'Track your money with MoneyMate! Download it here: '
+                      'https://play.google.com/store/apps/details?id=${appInfo.packageName}',
+                ),
               ),
             ),
 
@@ -144,7 +147,7 @@ class _FaqTile extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2)),
+          BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
         ],
       ),
       child: ExpansionTile(
@@ -153,7 +156,7 @@ class _FaqTile extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(6),
           decoration: BoxDecoration(
-            color: DColors.primary.withOpacity(0.1),
+            color: DColors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(Icons.question_mark_rounded, size: 16, color: DColors.primary),
@@ -184,9 +187,9 @@ class _ContactCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: DColors.primary.withOpacity(0.2)),
+          border: Border.all(color: DColors.primary.withValues(alpha: 0.2)),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2)),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -194,7 +197,7 @@ class _ContactCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: DColors.primary.withOpacity(0.1),
+                color: DColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: DColors.primary, size: 20),
@@ -234,7 +237,7 @@ class _ActionTile extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2)),
+            BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 8, offset: const Offset(0, 2)),
           ],
         ),
         child: Row(
@@ -242,7 +245,7 @@ class _ActionTile extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: DColors.primary.withOpacity(0.1),
+                color: DColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: DColors.primary, size: 20),

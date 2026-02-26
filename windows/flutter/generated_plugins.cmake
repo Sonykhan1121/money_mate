@@ -4,7 +4,6 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_windows
-  flutter_doc_scanner
   isar_flutter_libs
   printing
   share_plus

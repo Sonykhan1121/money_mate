@@ -55,7 +55,7 @@ class DocumentScannerService {
   /// Validate if the scanned file exists
   Future<bool> validateScannedFile(String path) async {
     try {
-      print("path : $path");
+      debugPrint("path : $path");
       final file = File(path);
       return await file.exists();
     } catch (e) {

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'transactionModel.dart';
+part of 'transaction_model.dart';
 
 // **************************************************************************
 // IsarCollectionGenerator
@@ -249,6 +249,7 @@ TransactionModel _transactionModelDeserialize(
     createdAt: reader.readDateTime(offsets[2]),
     customDate: reader.readDateTime(offsets[3]),
     description: reader.readStringOrNull(offsets[4]),
+    id: id,
     imageUrls: reader.readStringList(offsets[6]),
     location: reader.readStringOrNull(offsets[7]),
     notes: reader.readStringOrNull(offsets[8]),
@@ -260,7 +261,6 @@ TransactionModel _transactionModelDeserialize(
             TransactionType.income,
     updatedAt: reader.readDateTimeOrNull(offsets[13]),
   );
-  object.id = id;
   return object;
 }
 

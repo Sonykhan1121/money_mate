@@ -47,22 +47,21 @@ class AppSnackbar extends StatelessWidget {
 
     final bgColor = isDark ? const Color(0xFF1E1E2E) : Colors.white;
     final textColor = isDark ? Colors.white : const Color(0xFF1A1A2E);
-    final subTextColor = isDark ? Colors.white60 : Colors.black45;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: s.accentColor.withOpacity(0.35), width: 1.2),
+        border: Border.all(color: s.accentColor.withValues(alpha: 0.35), width: 1.2),
         boxShadow: [
           BoxShadow(
-            color: s.accentColor.withOpacity(0.15),
+            color: s.accentColor.withValues(alpha: 0.15),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

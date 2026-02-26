@@ -44,7 +44,7 @@ class _AddExpenseTabState extends State<AddExpenseTab> with SingleTickerProvider
               height: 40,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
-                color: DColors.primary.withOpacity(0.1),
+                color: DColors.primary.withValues(alpha: 0.1),
               ),
               child:  TabBar(
                 indicatorSize: TabBarIndicatorSize.tab,

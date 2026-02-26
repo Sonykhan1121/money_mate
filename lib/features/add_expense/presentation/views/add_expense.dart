@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../data/models/category.dart';
-import '../widgets/datePickerfield.dart';
+import '../widgets/date_picker_field.dart';
 import '../widgets/add_expense_tab.dart';
 import 'package:file_picker/file_picker.dart';
 import '../widgets/category_dropdown_item.dart';
@@ -10,12 +10,12 @@ import 'package:image_picker/image_picker.dart';
 import '../viewmodels/add_expense_provider.dart';
 import '../../../../core/utils/constants/colors.dart';
 import 'package:money_mate/shared_widgets/dsnackbar.dart';
-import '../../../../shared_widgets/dottedBorder_box.dart';
+import '../../../../shared_widgets/dotted_border_box.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_mate/shared_widgets/custom_app_bar.dart';
-import '../../../transactions/data/models/transactionType.dart';
+import '../../../transactions/data/models/transaction_type.dart';
 import 'package:money_mate/core/utils/extensions/provider_extension.dart';
-import 'package:money_mate/features/transactions/data/models/transactionModel.dart';
+import 'package:money_mate/features/transactions/data/models/transaction_model.dart';
 import 'package:money_mate/features/add_expense/presentation/views/image_grid_viewer.dart';
 
 class AddExpense extends StatefulWidget {
@@ -102,7 +102,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                           child: Container(
                             height: 100,
                             decoration: BoxDecoration(
-                              color: DColors.primary.withOpacity(0.1),
+                              color: DColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: DottedBorderBox(
@@ -131,7 +131,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                           child: Container(
                             height: 100,
                             decoration: BoxDecoration(
-                              color: DColors.primary.withOpacity(0.1),
+                              color: DColors.primary.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: DottedBorderBox(
@@ -192,7 +192,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                             const SizedBox(height: 10),
                             DropdownButtonFormField<CategoryModel>(
                               decoration: const InputDecoration(hintText: 'Select a category'),
-                              value: _selectedValue,
+                              initialValue: _selectedValue,
                               selectedItemBuilder: (context) => _filteredCategories(addExpenseProvider)
                                   .map((cat) => CategorySelectedItem(category: cat))
                                   .toList(),
@@ -256,20 +256,33 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                                   final method = entry.value;
                                   return Column(
                                     children: [
-                                      RadioListTile<String>(
-                                        dense: true,
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                                        title: Row(
+                                      // Wrap your list or column of tiles with the RadioGroup
+                                      RadioGroup<String>(
+                                        groupValue: _selectedPaymentMethod, // Matches the source code property
+                                        onChanged: (String? v) {
+                                          if (v != null) {
+                                            setState(() => _selectedPaymentMethod = v);
+                                          }
+                                        },
+                                        child: Column( // Or any widget containing your tiles
                                           children: [
-                                            Icon(_paymentMethodIcon(method), size: 18, color: DColors.primary),
-                                            const SizedBox(width: 8),
-                                            Text(method, style: const TextStyle(fontSize: 14)),
+                                            RadioListTile<String>(
+                                              dense: true,
+                                              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                                              title: Row(
+                                                children: [
+                                                  Icon(_paymentMethodIcon(method), size: 18, color: DColors.primary),
+                                                  const SizedBox(width: 8),
+                                                  Text(method, style: const TextStyle(fontSize: 14)),
+                                                ],
+                                              ),
+                                              value: method,
+                                              activeColor: DColors.primary,
+                                              // groupValue and onChanged are removed here as they are managed by RadioGroup
+                                            ),
+                                            // ... other RadioListTiles
                                           ],
                                         ),
-                                        value: method,
-                                        groupValue: _selectedPaymentMethod,
-                                        activeColor: DColors.primary,
-                                        onChanged: (v) => setState(() => _selectedPaymentMethod = v),
                                       ),
                                       if (!isLast)
                                         Divider(height: 1, indent: 12, endIndent: 12, color: Colors.grey.shade200),
@@ -322,8 +335,8 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
                                     .map(
                                       (tag) => Chip(
                                     label: Text(tag, style: const TextStyle(fontSize: 12)),
-                                    backgroundColor: DColors.primary.withOpacity(0.1),
-                                    side: BorderSide(color: DColors.primary.withOpacity(0.3)),
+                                    backgroundColor: DColors.primary.withValues(alpha: 0.1),
+                                    side: BorderSide(color: DColors.primary.withValues(alpha: 0.3)),
                                     deleteIcon: Icon(Icons.close, size: 14, color: DColors.primary),
                                     onDeleted: () => _removeTag(tag),
                                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -385,13 +398,16 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
 
                 if (success != null) {
                   final String label = _selectedIndex == 0 ? "Income" : "Expense";
+                  if(!context.mounted)return;
                   DSnackbar.showSuccess(context, "$label added successfully");
                   await clearAll();
+                  if(!context.mounted)return;
                   FocusScope.of(context).unfocus();
                   context.addExpenseProvider.clearImagePaths();
                   context.transactionProvider.init();
                   // hide keyboard
                 } else {
+                  if(!context.mounted)return;
                   DSnackbar.showError(context, "Something went wrong");
                 }
               },
@@ -445,7 +461,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
               leading: Container(
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
-                  color: DColors.primary.withOpacity(0.1),
+                  color: DColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(Icons.camera_alt, color: DColors.primary),
@@ -462,7 +478,7 @@ class _AddExpenseState extends State<AddExpense> with SingleTickerProviderStateM
               leading: Container(
                 padding: EdgeInsets.all(10.w),
                 decoration: BoxDecoration(
-                  color: DColors.primary.withOpacity(0.1),
+                  color: DColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(Icons.folder_open, color: DColors.primary),

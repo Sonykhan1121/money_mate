@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../core/utils/constants/colors.dart';
-import '../../../transactions/data/models/transactionType.dart';
-import '../../../transactions/data/models/transactionModel.dart';
+import '../../../transactions/data/models/transaction_type.dart';
+import '../../../transactions/data/models/transaction_model.dart';
 import '../../data/services/transaction_details_pdf_service.dart';
 import 'package:money_mate/core/utils/extensions/provider_extension.dart';
 import '../../../transactions/presentation/viewmodels/transactions_provider.dart';
@@ -161,7 +161,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         final category = context.addExpenseProvider.getCategoryById(
           _isEditing ? (_selectedCategoryId ?? transaction.categoryId) : transaction.categoryId,
         );
-        final title = transaction.title;
         final categoryName = category.name;
         final categoryIcon = category.icon;
         final hasImages = transaction.imageUrls != null && transaction.imageUrls!.isNotEmpty;
@@ -260,7 +259,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-          decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(color: color.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(20)),
           child: Text(isIncome ? 'Income' : 'Expense', style: TextStyle(color: color, fontWeight: FontWeight.w600)),
         ),
       ],
@@ -299,7 +298,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                         fit: BoxFit.cover,
                         errorBuilder:
                             (_, __, ___) => Container(
-                              color: DColors.primary.withOpacity(0.1),
+                              color: DColors.primary.withValues(alpha: 0.1),
                               child: const Center(child: Icon(Icons.broken_image_outlined, size: 48)),
                             ),
                       ),
@@ -319,7 +318,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                   width: _currentImageIndex == i ? 20 : 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: _currentImageIndex == i ? DColors.primary : DColors.primary.withOpacity(0.3),
+                    color: _currentImageIndex == i ? DColors.primary : DColors.primary.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
@@ -332,7 +331,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(color: DColors.grey.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+              decoration: BoxDecoration(color: DColors.grey.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -392,33 +391,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
     );
   }
 
-  Widget _buildNotesView(TransactionModel t) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Notes', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-        const SizedBox(height: 10),
-        const Divider(),
-        const SizedBox(height: 10),
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.amber.withOpacity(0.3)),
-          ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.sticky_note_2_outlined, size: 16, color: Colors.amber),
-              const SizedBox(width: 8),
-              Expanded(child: Text(t.notes!, style: TextStyle(fontSize: 13, color: Colors.grey.shade700, height: 1.5))),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildTagsView(TransactionModel t) {
     return Column(
@@ -437,7 +409,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                     (tag) => Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
-                        color: DColors.primary.withOpacity(0.08),
+                        color: DColors.primary.withValues(alpha: 0.08),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -630,9 +602,9 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 decoration: BoxDecoration(
-                  color: DColors.primary.withOpacity(0.05),
+                  color: DColors.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: DColors.primary.withOpacity(0.2), width: 1.5),
+                  border: Border.all(color: DColors.primary.withValues(alpha: 0.2), width: 1.5),
                 ),
                 child: Column(
                   children: [
@@ -672,7 +644,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         const Text('Category', style: TextStyle(fontSize: 12, color: Colors.grey)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
-          value: _selectedCategoryId,
+          initialValue: _selectedCategoryId,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
@@ -724,7 +696,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         const Text('Payment Method', style: TextStyle(fontSize: 12, color: Colors.grey)),
         const SizedBox(height: 6),
         DropdownButtonFormField<String>(
-          value: _selectedPaymentMethod,
+          initialValue: _selectedPaymentMethod,
           decoration: InputDecoration(
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
@@ -862,7 +834,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                     .map(
                       (entry) => Chip(
                         label: Text('#${entry.value}', style: TextStyle(color: DColors.primary, fontSize: 12)),
-                        backgroundColor: DColors.primary.withOpacity(0.08),
+                        backgroundColor: DColors.primary.withValues(alpha: 0.08),
                         deleteIcon: Icon(Icons.close, size: 14, color: DColors.primary),
                         onDeleted: () => setState(() => _editTags.removeAt(entry.key)),
                         shape: const StadiumBorder(),
@@ -995,7 +967,7 @@ class _SectionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
       ),
       child: child,
     );
@@ -1032,7 +1004,7 @@ class _InfoRow extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: DColors.primary.withOpacity(0.1),
+                color: DColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(value, style: TextStyle(fontSize: 12, color: DColors.primary)),

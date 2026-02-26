@@ -8,7 +8,7 @@ import '../widgets/month_selector.dart';
 import '../widgets/mini_bar_chart.dart';
 import 'package:go_router/go_router.dart';
 import '../viewmodels/home_provider.dart';
-import '../../../../core/local/localData.dart';
+import '../../../../core/local/local_data.dart';
 import '../../../../core/utils/constants/colors.dart';
 import '../../data/services/transaction_pdf_service.dart';
 import 'package:money_mate/core/routing/route_names.dart';
@@ -22,7 +22,7 @@ import 'package:money_mate/features/profile/presentation/view_model/profile_prov
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();

@@ -2,11 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path_provider/path_provider.dart';
 import '../../../../core/routing/route_names.dart';
 import '../../../../core/utils/constants/colors.dart';
-import '../../../transactions/data/models/transactionType.dart';
-import '../../../transactions/data/models/transactionModel.dart';
+import '../../../transactions/data/models/transaction_type.dart';
+import '../../../transactions/data/models/transaction_model.dart';
 import 'package:money_mate/core/utils/extensions/provider_extension.dart';
 
 class TransactionTile extends StatefulWidget {
@@ -52,7 +51,7 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
   Widget build(BuildContext context) {
     final isIncome = widget.transaction.type == TransactionType.income;
     final color = isIncome ? const Color(0xFF00C48C) : const Color(0xFFFF6B6B);
-    final bgColor = isIncome ? const Color(0xFF00C48C).withOpacity(0.08) : const Color(0xFFFF6B6B).withOpacity(0.08);
+    final bgColor = isIncome ? const Color(0xFF00C48C).withValues(alpha: 0.08) : const Color(0xFFFF6B6B).withValues(alpha: 0.08);
 
     return FadeTransition(
       opacity: _opacity,
@@ -63,7 +62,7 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 12, offset: const Offset(0, 4))],
+            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 12, offset: const Offset(0, 4))],
           ),
           child: Material(
             color: Colors.transparent,
@@ -139,7 +138,7 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                             future: getCategoryName(context, widget.transaction.categoryId),
                             builder: (context, snapshot) {
                               return Text(
-                                "(${snapshot.data})" ??"...",
+                                "(${snapshot.data})",
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
@@ -191,7 +190,7 @@ class _TransactionTileState extends State<TransactionTile> with SingleTickerProv
                                     (_, i) => Container(
                                   padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                                   decoration: BoxDecoration(
-                                    color: DColors.primary.withOpacity(0.08),
+                                    color: DColors.primary.withValues(alpha: 0.08),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(

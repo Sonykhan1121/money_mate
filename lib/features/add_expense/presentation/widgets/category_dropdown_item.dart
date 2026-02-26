@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../transactions/data/models/transactionType.dart';
+import '../../../transactions/data/models/transaction_type.dart';
 import '../../data/models/category.dart';
 
 class CategoryDropdownItem extends StatelessWidget {
@@ -25,9 +25,9 @@ class CategoryDropdownItem extends StatelessWidget {
           width: 20.w,
           height: 20.w,
           decoration: BoxDecoration(
-            color: _color.withOpacity(0.15),
+            color: _color.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(color: _color.withOpacity(0.3), width: 1),
+            border: Border.all(color: _color.withValues(alpha: 0.3), width: 1),
           ),
           child: Center(
             child: Text(category.icon, style: TextStyle(fontSize: 10.sp)),
@@ -51,7 +51,7 @@ class CategoryDropdownItem extends StatelessWidget {
               Text(
                 category.nameLocalised,
                 style: theme.textTheme.labelSmall?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.45),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
                 ),
               ),
             ],
@@ -63,8 +63,8 @@ class CategoryDropdownItem extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
           decoration: BoxDecoration(
             color: category.type == TransactionType.income
-                ? Colors.green.withOpacity(0.12)
-                : Colors.red.withOpacity(0.12),
+                ? Colors.green.withValues(alpha: 0.12)
+                : Colors.red.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(20.r),
           ),
           child: Text(

@@ -33,8 +33,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final profile = context.read<ProfileProvider>().profile;
 
     _avatar = profile?.imagePath != null
-        ? profile!.avatarType==AvatarType.asset ? AvatarResult.asset(profile!.imagePath!) : AvatarResult.file(
-        profile!.imagePath!)
+        ? profile!.avatarType==AvatarType.asset ? AvatarResult.asset(profile.imagePath!) : AvatarResult.file(
+        profile.imagePath!)
         : null;
 
     _nameCtrl  = TextEditingController(text: profile?.name ?? '');
@@ -59,14 +59,14 @@ class _ProfilePageState extends State<ProfilePage> {
   void _enterEdit() {
     _editingAvatar = _avatar; // snapshot current avatar
     setState(() => _isEditing = true);
-    print("enter (avatar)1 : $_editingAvatar");
+    debugPrint("enter (avatar)1 : $_editingAvatar");
   }
 
   Future<void> _saveEdit() async {
     final provider = context.read<ProfileProvider>();
     final existing = provider.profile;
-    print("save (avatar) : $_editingAvatar");
-    print("save (avatar)1 : $_avatar");
+    debugPrint("save (avatar) : $_editingAvatar");
+    debugPrint("save (avatar)1 : $_avatar");
 
     final updated = ProfileModel(
       id: existing?.id ?? Isar.autoIncrement,

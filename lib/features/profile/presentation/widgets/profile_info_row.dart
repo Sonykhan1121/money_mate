@@ -18,7 +18,7 @@ class ProfileInfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isPlaceholder
-        ? Colors.grey.withOpacity(0.5)
+        ? Colors.grey.withValues(alpha: 0.5)
         : Colors.black;
 
     return Padding(

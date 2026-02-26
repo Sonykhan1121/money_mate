@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import '../../../../core/utils/constants/colors.dart';
 import 'package:money_mate/features/transactions/presentation/viewmodels/transactions_provider.dart';
 
@@ -24,7 +23,7 @@ class MiniBarChart extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: DColors.fBlack.withOpacity(0.1),
+            color: DColors.fBlack.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -45,16 +44,16 @@ class MiniBarChart extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               gradient: LinearGradient(
                 colors: [
-                  DColors.fWhite.withOpacity(0.2),
-                  DColors.primary.withOpacity(0.1),
+                  DColors.fWhite.withValues(alpha: 0.2),
+                  DColors.primary.withValues(alpha: 0.1),
                 ],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
             ),
             child: BarChart(
-              swapAnimationDuration: const Duration(milliseconds: 2000),
-              swapAnimationCurve: Curves.easeOut,
+              duration: const Duration(milliseconds: 2000),
+              curve: Curves.easeOut,
               BarChartData(
                 alignment: BarChartAlignment.spaceBetween,
                 maxY: maxY,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '../../core/local/localData.dart';
+import '../../core/local/local_data.dart';
 import '../../core/utils/constants/icons.dart';
 import '../../core/utils/constants/colors.dart';
 import 'package:money_mate/core/routing/route_names.dart';
@@ -44,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 130.h, child: Image.asset(DIcons.app_logo1)),
+            SizedBox(height: 130.h, child: Image.asset(DIcons.appLogo1)),
             SizedBox(height: 5),
             Text('MoneyMate', style: TextStyle(color: DColors.fWhite, fontWeight: FontWeight.bold, fontSize: 14.sp)),
             SizedBox(height: 5),

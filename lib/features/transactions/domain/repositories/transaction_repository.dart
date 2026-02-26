@@ -1,5 +1,5 @@
-import '../../data/models/transactionType.dart';
-import '../../data/models/transactionModel.dart';
+import '../../data/models/transaction_type.dart';
+import '../../data/models/transaction_model.dart';
 
 abstract class TransactionRepository {
   Future<int?> addTransaction(TransactionModel tModel);

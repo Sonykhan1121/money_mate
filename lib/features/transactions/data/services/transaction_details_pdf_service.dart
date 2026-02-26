@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
-import '../../../transactions/data/models/transactionType.dart';
-import '../../../transactions/data/models/transactionModel.dart';
+import '../../../transactions/data/models/transaction_type.dart';
+import '../../../transactions/data/models/transaction_model.dart';
 
 class TransactionDetailPdfService {
 
@@ -167,7 +167,7 @@ class TransactionDetailPdfService {
     }
 
     addRow('Title',          transaction.title);
-    addRow('Category',       '${getCategoryName(transaction.categoryId)}');
+    addRow('Category',       getCategoryName(transaction.categoryId));
     addRow('Date',           DateFormat('EEEE, MMM d, yyyy').format(transaction.customDate));
     addRow('Created At',     DateFormat('MMM d, yyyy  hh:mm a').format(transaction.createdAt));
     addRow('Payment',        transaction.paymentMethod);

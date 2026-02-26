@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
+import 'package:flutter/cupertino.dart';
+import '../models/transaction_type.dart';
+import '../models/transaction_model.dart';
 import '../../../../core/services/isar_service.dart';
-import '../models/transactionType.dart';
-import '../models/transactionModel.dart';
-import 'package:path_provider/path_provider.dart';
 
 class TransactionService {
   // ─── Singleton ──────────────────────────────
@@ -25,7 +24,7 @@ class TransactionService {
         return await isar.transactionModels.put(txn);
       });
     } catch (e) {
-      print('Error adding transaction: $e');
+      debugPrint('Error adding transaction: $e');
       return null; // null indicates failure
     }
   }
@@ -36,7 +35,7 @@ class TransactionService {
       final isar = await db;
       return await isar.transactionModels.where().findAll();
     } catch (e) {
-      print('Error fetching transactions: $e');
+      debugPrint('Error fetching transactions: $e');
       return [];
     }
   }
@@ -51,7 +50,7 @@ class TransactionService {
         return id != 0; // put returns 0 if failed
       });
     } catch (e) {
-      print('Error updating transaction: $e');
+      debugPrint('Error updating transaction: $e');
       return false;
     }
   }
@@ -64,7 +63,7 @@ class TransactionService {
         return await isar.transactionModels.delete(id);
       });
     } catch (e) {
-      print('Error deleting transaction: $e');
+      debugPrint('Error deleting transaction: $e');
       return false;
     }
   }
@@ -77,7 +76,7 @@ class TransactionService {
           .categoryIdEqualTo(categoryId)
           .findAll();
     } catch (e) {
-      print('Error fetching by category: $e');
+      debugPrint('Error fetching by category: $e');
       return [];
     }
   }
@@ -90,7 +89,7 @@ class TransactionService {
           .typeEqualTo(type)
           .findAll();
     } catch (e) {
-      print('Error fetching by type: $e');
+      debugPrint('Error fetching by type: $e');
       return [];
     }
   }

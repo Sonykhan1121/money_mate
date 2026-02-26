@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_mate/core/utils/extensions/provider_extension.dart';
 import 'package:money_mate/features/profile/data/models/profile_model.dart';
-import '../../../core/local/localData.dart';
+import '../../../core/local/local_data.dart';
 import '../../../core/routing/route_names.dart';
 import '../../../core/utils/constants/colors.dart';
 
@@ -40,7 +40,7 @@ class WelcomeContinueButton extends StatelessWidget {
                 boxShadow: enabled
                     ? [
                   BoxShadow(
-                    color: DColors.secondary.withOpacity(0.40),
+                    color: DColors.secondary.withValues(alpha: 0.40),
                     blurRadius: 16,
                     offset: const Offset(0, 6),
                   ),
@@ -91,7 +91,7 @@ class WelcomeContinueButton extends StatelessWidget {
           'No account needed · 100% private',
           style: TextStyle(
             fontSize: 12,
-            color: const Color(0xFF2D2417).withOpacity(0.35),
+            color: const Color(0xFF2D2417).withValues(alpha: 0.35),
             letterSpacing: 0.2,
           ),
         ),

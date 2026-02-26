@@ -1,5 +1,4 @@
 import 'avatar_result.dart';
-import 'profile_info_row.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/utils/constants/colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,9 +39,9 @@ class ProfileViewSection extends StatelessWidget {
               height: 80.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: DColors.primary.withOpacity(0.10),
+                color: DColors.primary.withValues(alpha: 0.10),
                 border: Border.all(
-                  color: DColors.primary.withOpacity(0.25),
+                  color: DColors.primary.withValues(alpha: 0.25),
                   width: 2.5,
                 ),
               ),
@@ -50,7 +49,7 @@ class ProfileViewSection extends StatelessWidget {
                   ? Icon(
                 Icons.person_rounded,
                 size: 40.sp,
-                color: DColors.primary.withOpacity(0.65),
+                color: DColors.primary.withValues(alpha: 0.65),
               )
                   : ClipOval(
                 child: avatar!.type == AvatarType.asset
@@ -72,7 +71,7 @@ class ProfileViewSection extends StatelessWidget {
             fontWeight: FontWeight.w700,
             color: name != null
                 ? theme.colorScheme.onSurface
-                : theme.colorScheme.onSurface.withOpacity(0.35),
+                : theme.colorScheme.onSurface.withValues(alpha: 0.35),
           ),
         ),
 
@@ -84,7 +83,7 @@ class ProfileViewSection extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.5),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
               height: 1.5,
             ),
           ),
@@ -98,12 +97,12 @@ class ProfileViewSection extends StatelessWidget {
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16.r),
             border: Border.all(
-              color: theme.dividerColor.withOpacity(0.5),
+              color: theme.dividerColor.withValues(alpha: 0.5),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.04),
+                color: Colors.black.withValues(alpha: 0.04),
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -142,7 +141,7 @@ class ProfileViewSection extends StatelessWidget {
                 icon,
                 size: 20.sp,
                 color: isEmpty
-                    ? theme.colorScheme.onSurface.withOpacity(0.25)
+                    ? theme.colorScheme.onSurface.withValues(alpha: 0.25)
                     : DColors.primary,
               ),
               SizedBox(width: 14.w),
@@ -153,7 +152,7 @@ class ProfileViewSection extends StatelessWidget {
                     Text(
                       label,
                       style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.onSurface.withOpacity(0.45),
+                        color: theme.colorScheme.onSurface.withValues(alpha: 0.45),
                         letterSpacing: 0.4,
                       ),
                     ),
@@ -162,7 +161,7 @@ class ProfileViewSection extends StatelessWidget {
                       value ?? placeholder,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: isEmpty
-                            ? theme.colorScheme.onSurface.withOpacity(0.28)
+                            ? theme.colorScheme.onSurface.withValues(alpha: 0.28)
                             : theme.colorScheme.onSurface,
                         fontWeight:
                         isEmpty ? FontWeight.w400 : FontWeight.w500,
@@ -179,7 +178,7 @@ class ProfileViewSection extends StatelessWidget {
             height: 1,
             thickness: 1,
             indent: 50.w,
-            color: theme.dividerColor.withOpacity(0.4),
+            color: theme.dividerColor.withValues(alpha: 0.4),
           ),
       ],
     );

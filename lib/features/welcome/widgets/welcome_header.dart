@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../core/utils/constants/colors.dart';
 
 class WelcomeHeader extends StatelessWidget {
@@ -18,12 +17,12 @@ class WelcomeHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(26),
             boxShadow: [
               BoxShadow(
-                color: DColors.primary.withOpacity(0.30),
+                color: DColors.primary.withValues(alpha: 0.30),
                 blurRadius: 24,
                 offset: const Offset(0, 8),
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.06),
+                color: Colors.black.withValues(alpha: 0.06),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),

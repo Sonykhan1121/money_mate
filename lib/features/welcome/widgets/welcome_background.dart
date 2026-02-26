@@ -20,7 +20,7 @@ class WelcomeBackground extends StatelessWidget {
             height: 220,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: DColors.primary.withOpacity(0.35),
+              color: DColors.primary.withValues(alpha: 0.35),
             ),
           ),
         ),
@@ -33,7 +33,7 @@ class WelcomeBackground extends StatelessWidget {
             height: 280,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: DColors.primary.withOpacity(0.25),
+              color: DColors.primary.withValues(alpha: 0.25),
             ),
           ),
         ),
@@ -46,7 +46,7 @@ class WelcomeBackground extends StatelessWidget {
             height: 120,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color:  DColors.primary.withOpacity(0.15),
+              color:  DColors.primary.withValues(alpha: 0.15),
             ),
           ),
         ),

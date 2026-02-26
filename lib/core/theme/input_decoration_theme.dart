@@ -20,7 +20,7 @@ InputDecorationTheme inputDecorationTheme() {
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: BorderSide(color: DColors.grey.withOpacity(0.5)),
+      borderSide: BorderSide(color: DColors.grey.withValues(alpha: 0.5)),
     ),
   );
 }
@@ -30,10 +30,10 @@ InputDecorationTheme inputDecorationThemeDark() {
   return InputDecorationTheme(
     floatingLabelStyle: const TextStyle(color: DColors.primary),
     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    hintStyle: TextStyle(color: DColors.fWhite.withOpacity(0.6)),
+    hintStyle: TextStyle(color: DColors.fWhite.withValues(alpha: 0.6)),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: BorderSide(color: DColors.fWhite.withOpacity(0.2)),
+      borderSide: BorderSide(color: DColors.fWhite.withValues(alpha: 0.2)),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
@@ -41,7 +41,7 @@ InputDecorationTheme inputDecorationThemeDark() {
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),
-      borderSide: BorderSide(color: DColors.fWhite.withOpacity(0.2)),
+      borderSide: BorderSide(color: DColors.fWhite.withValues(alpha: 0.2)),
     ),
     disabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(20),

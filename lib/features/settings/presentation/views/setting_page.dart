@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../core/utils/constants/colors.dart';
 import '../../../../core/widgets/setting_tile.dart';
 import '../../../../core/utils/constants/icons.dart';
@@ -62,6 +61,10 @@ class _SettingPageState extends State<SettingPage> {
     );
 
     if (confirmed != true) return;
+    if(!mounted)
+      {
+        return;
+      }
 
     setState(() => _isRestoring = true);
     final result = await BackupService.restore(
@@ -146,13 +149,13 @@ class _SettingPageState extends State<SettingPage> {
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
+                            color: Colors.black.withValues(alpha: 0.08),
                             blurRadius: 20,
                             offset: const Offset(0, 4),
                           ),
                         ],
                       ),
-                      child: Image.asset(DIcons.app_logo1),
+                      child: Image.asset(DIcons.appLogo1),
                     ),
                     const SizedBox(height: 10),
                     Text('Version ${appInfo.version}'),

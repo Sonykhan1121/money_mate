@@ -9,10 +9,8 @@ import 'package:money_mate/features/profile/presentation/view_model/profile_prov
 import 'package:money_mate/features/settings/presentation/viewmodels/app_info.dart';
 import 'package:money_mate/features/transactions/data/repositories/transaction_repository_epl.dart';
 import 'package:money_mate/features/transactions/data/services/transaction_service.dart';
-
 import 'core/theme/theme.dart';
-import 'core/local/localData.dart';
-import 'package:flutter/services.dart';
+import 'core/local/local_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'core/providers/theme_provider.dart';

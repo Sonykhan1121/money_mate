@@ -23,7 +23,7 @@ class _AvatarPickerState extends State<AvatarPicker> {
   void _openDialog() async {
     final result = await showDialog<AvatarResult>(
       context: context,
-      barrierColor: Colors.black.withOpacity(0.55),
+      barrierColor: Colors.black.withValues(alpha: 0.55),
       builder: (_) => AvatarPickerDialog(current: widget.previous, ),
     );
 
@@ -74,9 +74,9 @@ class _AvatarCircle extends StatelessWidget {
       height: 72.w,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: DColors.primary.withOpacity(0.10),
+        color: DColors.primary.withValues(alpha: 0.10),
         border: Border.all(
-          color: DColors.primary.withOpacity(0.30),
+          color: DColors.primary.withValues(alpha: 0.30),
           width: 2,
         ),
       ),
@@ -98,7 +98,7 @@ class _AvatarContent extends StatelessWidget {
       return Icon(
         Icons.person_rounded,
         size: 38.sp,
-        color: DColors.primary.withOpacity(0.55),
+        color: DColors.primary.withValues(alpha: 0.55),
       );
     }
 
@@ -113,7 +113,7 @@ class _AvatarContent extends StatelessWidget {
       errorBuilder: (_, __, ___) => Icon(
         Icons.person_rounded,
         size: 38.sp,
-        color: DColors.primary.withOpacity(0.55),
+        color: DColors.primary.withValues(alpha: 0.55),
       ),
     );
   }

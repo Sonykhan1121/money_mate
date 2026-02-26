@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:money_mate/features/transactions/data/models/transactionType.dart';
+import 'package:money_mate/features/transactions/data/models/transaction_type.dart';
 
-part 'transactionModel.g.dart';
+part 'transaction_model.g.dart';
 
 @collection
 class TransactionModel {
@@ -117,7 +117,7 @@ class TransactionModel {
       createdAt: createdAt ?? this.createdAt,
       customDate: customDate ?? this.customDate,
       updatedAt: updatedAt ?? this.updatedAt,
-      imageUrls: imageUrl ?? this.imageUrls,
+      imageUrls: imageUrl ?? imageUrls,
       location: location ?? this.location,
       paymentMethod: paymentMethod ?? this.paymentMethod,
       tags: tags ?? this.tags,

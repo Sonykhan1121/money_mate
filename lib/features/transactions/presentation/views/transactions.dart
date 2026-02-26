@@ -1,14 +1,12 @@
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:money_mate/core/routing/route_names.dart';
 import 'package:provider/provider.dart';
-import '../../../home/presentation/widgets/transaction_tile.dart';
-import '../../data/models/transactionModel.dart';
-import '../../data/models/transactionType.dart';
+import 'package:go_router/go_router.dart';
+import '../../data/models/transaction_model.dart';
 import '../../../../core/utils/constants/colors.dart';
+import 'package:money_mate/core/routing/route_names.dart';
+import '../../../home/presentation/widgets/transaction_tile.dart';
 import 'package:money_mate/features/transactions/presentation/viewmodels/transactions_provider.dart';
-import 'package:money_mate/features/transactions/presentation/views/transaction_details.dart';
 
 
 class Transactions extends StatefulWidget {
@@ -127,7 +125,7 @@ class _TransactionsState extends State<Transactions> {
                                 backgroundColor: isSelected ? DColors.primary : Colors.transparent,
                                 shape: StadiumBorder(
                                   side: BorderSide(
-                                    color: DColors.grey.withOpacity(0.3),
+                                    color: DColors.grey.withValues(alpha: 0.3),
                                     width: 1,
                                   ),
                                 ),
@@ -156,7 +154,7 @@ class _TransactionsState extends State<Transactions> {
                             child: Text(
                               dateKey,
                               style: TextStyle(
-                                color: DColors.grey.withOpacity(0.5),
+                                color: DColors.grey.withValues(alpha: 0.5),
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),

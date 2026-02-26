@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:money_mate/core/utils/extensions/provider_extension.dart';
-import '../../data/models/transactionType.dart';
-import '../../data/models/transactionModel.dart';
+import '../../data/models/transaction_type.dart';
+import '../../data/models/transaction_model.dart';
 import '../../domain/repositories/transaction_repository.dart';
 
 class TransactionsProvider extends ChangeNotifier {
