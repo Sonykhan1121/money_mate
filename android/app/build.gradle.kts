@@ -15,12 +15,12 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.example.money_mate"
+    namespace = "com.khan.money_mate"
     compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     defaultConfig {
-        applicationId = "com.example.money_mate"
+        applicationId = "com.khan.money_mate"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
