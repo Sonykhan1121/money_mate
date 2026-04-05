@@ -23,7 +23,7 @@ android {
         applicationId = "com.khan.money_mate"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
+        versionCode = 3
         versionName = "1.0.0"
     }
 
@@ -49,7 +49,7 @@ android {
 
     buildTypes {
         getByName("release") {
-            signingConfig = signingConfigs.getByName("debug")  // ✅ keep this as "debug"
+            signingConfig = signingConfigs.getByName("release")  // ✅ keep this as "debug"
             isMinifyEnabled = false
             isShrinkResources = false
         }
