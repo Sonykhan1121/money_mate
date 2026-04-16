@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.khan.money_mate">
 
     <!-- Camera -->
     <uses-permission android:name="android.permission.CAMERA"/>
@@ -14,8 +14,6 @@
     <!-- Android 13+ -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
 
-    <!-- Internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!-- Camera feature -->
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
