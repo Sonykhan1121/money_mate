@@ -44,7 +44,7 @@ jobs:
         run: flutter test --verbose
 
   # ─────────────────────────────────────────────
-  # JOB 2: Auto Tag (runs after test passes)
+  # JOB 2: Auto Tag
   # ─────────────────────────────────────────────
   auto-tag:
     name: 🏷️ Auto Tag from pubspec.yaml
@@ -58,35 +58,31 @@ jobs:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Required to check existing tags
+          fetch-depth: 0
 
-      - name: 🔎 Extract Version from pubspec.yaml
+      - name: 🔎 Extract Version
         id: version
         run: |
           VERSION=$(grep '^version:' pubspec.yaml | sed 's/version: //g' | cut -d '+' -f 1)
           echo "APP_VERSION=$VERSION" >> $GITHUB_OUTPUT
-          echo "✅ Version found: $VERSION"
 
-      - name: 🔍 Check If Tag Already Exists
+      - name: 🔍 Check Tag
         id: check_tag
         run: |
           TAG="v${{ steps.version.outputs.APP_VERSION }}"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "TAG_EXISTS=true" >> $GITHUB_OUTPUT
-            echo "⚠️ Tag $TAG already exists — skipping release."
           else
             echo "TAG_EXISTS=false" >> $GITHUB_OUTPUT
-            echo "✅ Tag $TAG does not exist — will create."
           fi
 
-      - name: 🏷️ Create & Push Tag
+      - name: 🏷️ Create Tag
         if: steps.check_tag.outputs.TAG_EXISTS == 'false'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git tag "v${{ steps.version.outputs.APP_VERSION }}"
           git push origin "v${{ steps.version.outputs.APP_VERSION }}"
-          echo "✅ Tag v${{ steps.version.outputs.APP_VERSION }} pushed!"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -119,10 +115,25 @@ jobs:
       - name: 📦 Install Dependencies
         run: flutter pub get
 
+      # 🔐 STEP 1: Decode Keystore
+      - name: 🔐 Decode Keystore
+        run: |
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/release.keystore
+
+      # 🔐 STEP 2: Create key.properties
+      - name: 📝 Create key.properties
+        run: |
+          echo "storeFile=release.keystore" > android/key.properties
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> android/key.properties
+          echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> android/key.properties
+          echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> android/key.properties
+
+      # 🏗️ Build APK
       - name: 🏗️ Build Release APK
         run: flutter build apk --release
 
-      - name: 🚀 Create GitHub Release with APK
+      # 🚀 Release
+      - name: 🚀 Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "v${{ needs.auto-tag.outputs.app_version }}"
@@ -135,9 +146,7 @@ jobs:
             **Triggered by:** @${{ github.actor }}
 
             ---
-            📲 Download the APK below and install on your Android device.
+            📲 Download APK below.
           files: build/app/outputs/flutter-apk/app-release.apk
-          draft: false
-          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
